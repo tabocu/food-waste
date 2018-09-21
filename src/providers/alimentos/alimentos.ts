@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AlimentoModel } from '../../app/models/alimento-model'
+import { AlimentoModel } from '../../models/alimento/alimento'
 
 @Injectable()
 export class AlimentosProvider {

@@ -4,7 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime';
 
 import { AlimentoPage } from '../alimento/alimento'
-import { AlimentoModel } from '../../app/models/alimento-model'
+import { AlimentoModel } from '../../models/alimento/alimento'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos'
 
 @Component({
