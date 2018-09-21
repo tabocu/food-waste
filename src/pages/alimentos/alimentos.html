@@ -5,9 +5,6 @@
     <ion-title>Alimentos</ion-title>
     <ion-buttons end>
       <button ion-button>
-        <ion-icon name="search"></ion-icon>
-      </button>
-      <button ion-button>
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -16,6 +13,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchCtrl" (ionInput)="onSearchInput()"></ion-searchbar>
+  <div *ngIf="searching" class="spinner-container">
+    <ion-spinner></ion-spinner>
+  </div>
   <ion-list>
     <button ion-item *ngFor="let alimento of alimentos">
       <h2>{{alimento.nome}}</h2>

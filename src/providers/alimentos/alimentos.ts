@@ -15,11 +15,15 @@ export class AlimentosProvider {
     new AlimentoModel("Frango com quiabo", "Proteina"),
   ];
 
-  constructor() {
-    
-  }
+  constructor() { }
 
   getAlimentos(): AlimentoModel[] {
     return this.alimentos;
+  }
+
+  filterAlimentos(searchTerm: string): AlimentoModel[] {
+    return this.alimentos.filter((alimento) => {
+      return alimento.nome.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
   }
 }
