@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime';
 
+import { AlimentoPage } from '../alimento/alimento'
 import { AlimentoModel } from '../../app/models/alimento-model'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos'
 
@@ -37,5 +38,13 @@ export class AlimentosPage {
 
   setFiltered() {
     this.alimentos = this.alimentosProvider.filterAlimentos(this.searchTerm);
+  }
+
+  newAlimento() {
+    this.navCtrl.push(AlimentoPage);
+  }
+
+  selectAlimento() {
+    this.navCtrl.push(AlimentoPage);
   }
 }

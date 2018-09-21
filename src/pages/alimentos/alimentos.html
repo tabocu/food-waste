@@ -1,15 +1,12 @@
-
 <ion-header>
-
   <ion-navbar>
     <ion-title>Alimentos</ion-title>
     <ion-buttons end>
-      <button ion-button>
+      <button ion-button (click)="newAlimento()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
@@ -18,7 +15,7 @@
     <ion-spinner></ion-spinner>
   </div>
   <ion-list>
-    <button ion-item *ngFor="let alimento of alimentos">
+    <button ion-item *ngFor="let alimento of alimentos" (click)="selectAlimento()">
       <h2>{{alimento.nome}}</h2>
       <p>{{alimento.tipo}}</p>
     </button>
