@@ -1,5 +1,8 @@
 export class AlimentoModel {
-  constructor(public nome: string, public tipo: string) {
+  constructor(
+    public key: number,
+    public nome: string,
+    public tipo: string) {
 
   }
 }

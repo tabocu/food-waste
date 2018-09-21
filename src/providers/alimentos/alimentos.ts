@@ -6,13 +6,13 @@ import { AlimentoModel } from '../../app/models/alimento-model'
 export class AlimentosProvider {
 
   alimentos: AlimentoModel[] = [
-    new AlimentoModel("Arroz branco", "Carboidrato"),
-    new AlimentoModel("Feijão carioquinha", "Carboidrato"),
-    new AlimentoModel("Carne de panela", "Proteina"),
-    new AlimentoModel("Carne moida", "Proteina"),
-    new AlimentoModel("Quiabo", "Legume"),
-    new AlimentoModel("Farofa de ovo", "Misto"),
-    new AlimentoModel("Frango com quiabo", "Proteina"),
+    new AlimentoModel(0, "Arroz branco", "Carboidrato"),
+    new AlimentoModel(1, "Feijão carioquinha", "Carboidrato"),
+    new AlimentoModel(2, "Carne de panela", "Proteina"),
+    new AlimentoModel(3, "Carne moida", "Proteina"),
+    new AlimentoModel(4, "Quiabo", "Legume"),
+    new AlimentoModel(5, "Farofa de ovo", "Misto"),
+    new AlimentoModel(6, "Frango com quiabo", "Proteina"),
   ];
 
   constructor() { }
