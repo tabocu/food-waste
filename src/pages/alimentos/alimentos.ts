@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the AlimentosPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AlimentoModel } from '../../app/models/alimento-model'
 
 @Component({
   selector: 'page-alimentos',
@@ -14,7 +9,24 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class AlimentosPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  alimentos: AlimentoModel[] = [
+    new AlimentoModel("Arroz branco", "Carboidrato"),
+    new AlimentoModel("Feijão carioquinha", "Carboidrato"),
+    new AlimentoModel("Carne de panela", "Proteina"),
+    new AlimentoModel("Carne moida", "Proteina"),
+    new AlimentoModel("Quiabo", "Legume"),
+    new AlimentoModel("Farofa de ovo", "Misto"),
+    new AlimentoModel("Frango com quiabo", "Proteina"),
+  ];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams) {
+
+  }
+
+  getAlimentos(): AlimentoModel[] {
+    return this.alimentos;
   }
 
   ionViewDidLoad() {
