@@ -1,4 +1,4 @@
-export abstract class IndexedModel {
+export class IndexedModel {
 
     protected key: number = null;
 
@@ -11,6 +11,4 @@ export abstract class IndexedModel {
     getKey(): number {
         return this.key;
     }
-
-    abstract copy();
 }

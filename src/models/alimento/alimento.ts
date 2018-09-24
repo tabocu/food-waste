@@ -1,6 +1,10 @@
 import { IndexedModel } from "../utils/indexed";
+import { ClonableModel } from "../utils/clonable";
 
-export class AlimentoModel extends IndexedModel {
+export
+  class AlimentoModel 
+  extends IndexedModel
+  implements ClonableModel<AlimentoModel> {
 
   constructor(
     public nome?: string,
@@ -8,7 +12,7 @@ export class AlimentoModel extends IndexedModel {
       super();
   }
 
-  copy() : AlimentoModel {
+  clone() : AlimentoModel {
     let alimentoModelCopy = new AlimentoModel();
     alimentoModelCopy.key = this.key;
     alimentoModelCopy.nome = this.nome;
@@ -18,12 +22,15 @@ export class AlimentoModel extends IndexedModel {
   }
 }
 
-export class QuantidadeModel {
+export
+  class QuantidadeModel
+  implements ClonableModel<QuantidadeModel> {
+
   constructor(
     public readonly alimentoKey: number,
     public readonly quantidade: number) { }
 
-  copy() : QuantidadeModel {
+  clone() : QuantidadeModel {
     return new QuantidadeModel(this.alimentoKey, this.quantidade);
   }
 }

@@ -32,7 +32,7 @@ export class AlimentosProvider {
   }
 
   retrieve(key: Number) : AlimentoModel {
-    return this.alimentos[this.getIndex(key)].copy();
+    return this.alimentos[this.getIndex(key)].clone();
   }
 
   retrieveAll(): AlimentoModel[] {
