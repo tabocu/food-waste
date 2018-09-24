@@ -16,21 +16,14 @@ export class AlimentoPage {
     public navParams: NavParams,
     public alimentosProvider: AlimentosProvider) {
     let key = this.navParams.get('key');
-    if (key != null) {
-      this.alimento = this.alimentosProvider.retrieve(key);
-    }
+    if (key != null) this.alimento = this.alimentosProvider.retrieve(key);
   }
 
-  ionViewDidLoad() {
-
-  }
+  ionViewDidLoad() {}
 
   accept() {
-    if (this.alimento.getKey() == null) {
-      this.alimentosProvider.create(this.alimento);
-    } else {
-      this.alimentosProvider.update(this.alimento);
-    }
+    if (this.alimento.getKey() == null) this.alimentosProvider.create(this.alimento);
+    else this.alimentosProvider.update(this.alimento);
     this.navCtrl.pop();
   }
 }

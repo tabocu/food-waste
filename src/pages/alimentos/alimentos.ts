@@ -16,6 +16,7 @@ export class AlimentosPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alimentosProvider: AlimentosProvider) {
+
     this.alimentos = this.alimentosProvider.retrieveAll();
   }
 
