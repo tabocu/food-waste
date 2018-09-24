@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AlimentoModel } from '../../models/alimento/alimento'
+import { AlimentosProvider } from '../../providers/alimentos/alimentos'
 
 @Component({
   selector: 'page-alimento',
@@ -7,11 +9,28 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class AlimentoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  alimento: AlimentoModel = new AlimentoModel();
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alimentosProvider: AlimentosProvider) {
+    let key = this.navParams.get('key');
+    if (key != null) {
+      this.alimento = this.alimentosProvider.retrieve(key);
+    }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AlimentoPage');
+
   }
 
+  accept() {
+    if (this.alimento.getKey() == null) {
+      this.alimentosProvider.create(this.alimento);
+    } else {
+      this.alimentosProvider.update(this.alimento);
+    }
+    this.navCtrl.pop();
+  }
 }

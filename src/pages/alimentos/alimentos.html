@@ -10,12 +10,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchCtrl" (ionInput)="onSearchInput()"></ion-searchbar>
-  <div *ngIf="searching" class="spinner-container">
-    <ion-spinner></ion-spinner>
-  </div>
   <ion-list>
-    <button ion-item *ngFor="let alimento of alimentos" (click)="selectAlimento()">
+    <button ion-item *ngFor="let alimento of alimentos" (click)="selectAlimento(alimento.getKey())">
       <h2>{{alimento.nome}}</h2>
       <p>{{alimento.tipo}}</p>
     </button>

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
-import 'rxjs/add/operator/debounceTime';
 
 import { AlimentoPage } from '../alimento/alimento'
 import { AlimentoModel } from '../../models/alimento/alimento'
@@ -12,39 +10,20 @@ import { AlimentosProvider } from '../../providers/alimentos/alimentos'
   templateUrl: 'alimentos.html',
 })
 export class AlimentosPage {
-  searchCtrl: FormControl = new FormControl();
-  searchTerm: string = '';
-  searching: boolean = false;
-
   alimentos: AlimentoModel[];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public alimentosProvider: AlimentosProvider) { }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AlimentosPage');
-    this.setFiltered();
-    this.searchCtrl.valueChanges.debounceTime(700).subscribe(search => {
-      this.searching = false;
-      this.setFiltered();
-    });
-  }
-
-  onSearchInput() {
-    this.searching = true;
-  }
-
-  setFiltered() {
-    this.alimentos = this.alimentosProvider.filterAlimentos(this.searchTerm);
+    public alimentosProvider: AlimentosProvider) {
+    this.alimentos = this.alimentosProvider.retrieveAll();
   }
 
   newAlimento() {
     this.navCtrl.push(AlimentoPage);
   }
 
-  selectAlimento() {
-    this.navCtrl.push(AlimentoPage);
+  selectAlimento(key: Number) {
+    this.navCtrl.push(AlimentoPage, { key: key });
   }
 }
