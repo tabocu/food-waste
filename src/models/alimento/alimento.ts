@@ -1,8 +1,16 @@
 export class AlimentoModel {
-  constructor(
-    public key: number,
-    public nome: string,
-    public tipo: string) {
 
+  private key: number = null;
+  
+  constructor(
+    public nome?: string,
+    public tipo?: string) {}
+
+  setKey(key: number) {
+    this.key = key;
+  }
+
+  getKey() : number {
+    return this.key;
   }
 }

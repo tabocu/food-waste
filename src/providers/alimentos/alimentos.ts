@@ -5,21 +5,35 @@ import { AlimentoModel } from '../../models/alimento/alimento'
 @Injectable()
 export class AlimentosProvider {
 
-  alimentos: AlimentoModel[] = [
-    new AlimentoModel(0, "Arroz branco", "Carboidrato"),
-    new AlimentoModel(1, "Feijão carioquinha", "Carboidrato"),
-    new AlimentoModel(2, "Carne de panela", "Proteina"),
-    new AlimentoModel(3, "Carne moida", "Proteina"),
-    new AlimentoModel(4, "Quiabo", "Legume"),
-    new AlimentoModel(5, "Farofa de ovo", "Misto"),
-    new AlimentoModel(6, "Frango com quiabo", "Proteina"),
-  ];
+  private keyCounter: number = 0;
+  private alimentos: AlimentoModel[] = [];
 
-  constructor() { }
+  constructor() {
+    this.insert(new AlimentoModel("Arroz branco", "Carboidrato"));
+    this.insert(new AlimentoModel("Feijão carioquinha", "Carboidrato"));
+    this.insert(new AlimentoModel("Carne de panela", "Proteina"));
+    this.insert(new AlimentoModel("Carne moida", "Proteina"));
+    this.insert(new AlimentoModel("Quiabo", "Legume"));
+    this.insert(new AlimentoModel("Farofa de ovo", "Misto"));
+    this.insert(new AlimentoModel("Frango com quiabo", "Proteina"));
+  }
+
+  private getNextKey() : number {
+    return this.keyCounter++;
+  }
+
+  insert(alimento: AlimentoModel) {
+    alimento.setKey(this.getNextKey());
+    this.alimentos.push(alimento);
+  }
 
   getAlimentos(): AlimentoModel[] {
     return this.alimentos;
   }
+
+  getAlimento(key: Number): AlimentoModel {
+    return this.alimentos.find((alimento) => { return alimento.getKey() == key; });
+  } 
 
   filterAlimentos(searchTerm: string): AlimentoModel[] {
     return this.alimentos.filter((alimento) => {
