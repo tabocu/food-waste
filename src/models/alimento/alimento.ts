@@ -13,4 +13,13 @@ export class AlimentoModel {
   getKey() : number {
     return this.key;
   }
+
+  copy() : AlimentoModel {
+    let alimentoModelCopy = new AlimentoModel();
+    alimentoModelCopy.key = this.key;
+    alimentoModelCopy.nome = this.nome;
+    alimentoModelCopy.tipo = this.tipo;
+
+    return alimentoModelCopy;
+  }
 }
