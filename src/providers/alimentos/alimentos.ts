@@ -22,7 +22,7 @@ export class AlimentosProvider {
     return this.keyCounter++;
   }
 
-  private getIndex(key: Number) : number {
+  private getIndex(key: number) : number {
     return this.alimentos.findIndex((alimento) => { return alimento.getKey() == key; });
   }
 
@@ -31,7 +31,7 @@ export class AlimentosProvider {
     this.alimentos.push(alimento);
   }
 
-  retrieve(key: Number) : AlimentoModel {
+  retrieve(key: number) : AlimentoModel {
     return this.alimentos[this.getIndex(key)].clone();
   }
 
@@ -43,7 +43,7 @@ export class AlimentosProvider {
     this.alimentos[this.getIndex(alimento.getKey())] = alimento;
   }
 
-  delete(key: Number) {
+  delete(key: number) {
     delete this.alimentos[this.getIndex(key)];
   }
 }
