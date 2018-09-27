@@ -21,5 +21,11 @@ export class ReceitasPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitasPage');
   }
+  newReceita() {
+    // this.navCtrl.push(ReceitaPage);
+  }
 
+  selectReceita(key: Number) {
+    // this.navCtrl.push(ReceitaPage, { key: key });
+  }
 }
