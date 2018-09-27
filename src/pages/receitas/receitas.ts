@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { ReceitaModel } from '../../models/receita/receita'
 import { ReceitasProvider } from '../../providers/receitas/receitas'
+import { AlimentosProvider } from '../../providers/alimentos/alimentos';
+import { QuantidadeModel } from '../../models/alimento/alimento';
 
 @Component({
   selector: 'page-receitas',
@@ -13,14 +15,31 @@ export class ReceitasPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public receitaProvider: ReceitasProvider) {
+              public receitasProvider: ReceitasProvider,
+              public alimentosProvider: AlimentosProvider) {
 
-    this.receitas = this.receitaProvider.retrieveAll();
+    this.receitas = this.receitasProvider.retrieveAll();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitasPage');
   }
+
+  getQuantidades(key: number) : QuantidadeModel[] {
+    return this.receitasProvider.retrieve(key).quantidades;
+  }
+
+  getAlimentosText(key: number) : string {
+    let alimentos: string[] = [];
+    this.getQuantidades(key).forEach((quantidade) => { 
+      alimentos.push(this.alimentosProvider.retrieve(quantidade.alimentoKey).nome);
+    })
+    if (alimentos.length > 0) 
+      return alimentos.join(', ');
+    else
+      return "Nenhum alimento cadastrado";
+  }
+
   newReceita() {
     // this.navCtrl.push(ReceitaPage);
   }
