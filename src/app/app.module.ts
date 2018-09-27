@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { AlimentoPage } from '../pages/alimento/alimento'
 import { AlimentosPage } from '../pages/alimentos/alimentos'
+import { ReceitasPage } from '../pages/receitas/receitas'
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,6 +19,7 @@ import { ReceitasProvider } from '../providers/receitas/receitas';
     MyApp,
     AlimentoPage,
     AlimentosPage,
+    ReceitasPage,
     AboutPage,
     TabsPage
   ],
@@ -30,6 +32,7 @@ import { ReceitasProvider } from '../providers/receitas/receitas';
     MyApp,
     AlimentoPage,
     AlimentosPage,
+    ReceitasPage,
     AboutPage,
     TabsPage
   ],
