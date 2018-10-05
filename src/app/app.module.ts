@@ -7,6 +7,7 @@ import { AlimentoPage } from '../pages/alimento/alimento'
 import { AlimentosPage } from '../pages/alimentos/alimentos'
 import { ReceitaPage } from '../pages/receita/receita'
 import { ReceitasPage } from '../pages/receitas/receitas'
+import { PrecosPage } from '../pages/precos/precos'
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,6 +23,7 @@ import { PrecosProvider } from '../providers/precos/precos';
     AlimentosPage,
     ReceitaPage,
     ReceitasPage,
+    PrecosPage,
     TabsPage
   ],
   imports: [
@@ -35,6 +37,7 @@ import { PrecosProvider } from '../providers/precos/precos';
     AlimentosPage,
     ReceitaPage,
     ReceitasPage,
+    PrecosPage,
     TabsPage
   ],
   providers: [
