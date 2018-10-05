@@ -28,7 +28,7 @@ export
 
   constructor(
     public readonly alimentoKey: number,
-    public readonly quantidade: number) { }
+    public quantidade: number) { }
 
   clone() : QuantidadeModel {
     return new QuantidadeModel(this.alimentoKey, this.quantidade);

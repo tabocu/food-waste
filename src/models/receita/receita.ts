@@ -13,6 +13,12 @@ export
     super();
   }
 
+  getQuantidadeTotal() : number {
+    let quantidadeTotal: number = 0;
+    this.quantidades.forEach((quantidade) => { quantidadeTotal += quantidade.quantidade; });
+    return quantidadeTotal;
+  }
+
   clone(): ReceitaModel {
     let receitaModelCopy = new ReceitaModel(this.nome);
 

@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { ReceitaModel } from '../../models/receita/receita'
+import { QuantidadeModel } from '../../models/alimento/alimento';
+
 import { ReceitasProvider } from '../../providers/receitas/receitas'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
-import { QuantidadeModel } from '../../models/alimento/alimento';
+
+import { ReceitaPage } from '../receita/receita';
 
 @Component({
   selector: 'page-receitas',
@@ -41,10 +44,10 @@ export class ReceitasPage {
   }
 
   newReceita() {
-    // this.navCtrl.push(ReceitaPage);
+    this.navCtrl.push(ReceitaPage);
   }
 
-  selectReceita(key: Number) {
-    // this.navCtrl.push(ReceitaPage, { key: key });
+  selectReceita(key: number) {
+    this.navCtrl.push(ReceitaPage, { key: key });
   }
 }

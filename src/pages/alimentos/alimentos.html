@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>Alimentos</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="newAlimento()">
+      <button ion-button (click)="newAlimento()" *ngIf="!isModal">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>

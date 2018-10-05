@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { AlimentoPage } from '../pages/alimento/alimento'
 import { AlimentosPage } from '../pages/alimentos/alimentos'
+import { ReceitaPage } from '../pages/receita/receita'
 import { ReceitasPage } from '../pages/receitas/receitas'
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -19,6 +20,7 @@ import { ReceitasProvider } from '../providers/receitas/receitas';
     MyApp,
     AlimentoPage,
     AlimentosPage,
+    ReceitaPage,
     ReceitasPage,
     AboutPage,
     TabsPage
@@ -32,6 +34,7 @@ import { ReceitasProvider } from '../providers/receitas/receitas';
     MyApp,
     AlimentoPage,
     AlimentosPage,
+    ReceitaPage,
     ReceitasPage,
     AboutPage,
     TabsPage
