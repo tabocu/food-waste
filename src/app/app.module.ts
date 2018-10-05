@@ -14,6 +14,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlimentosProvider } from '../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../providers/receitas/receitas';
+import { PrecosProvider } from '../providers/precos/precos';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ReceitasProvider } from '../providers/receitas/receitas';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AlimentosProvider,
-    ReceitasProvider
+    ReceitasProvider,
+    PrecosProvider
   ]
 })
 export class AppModule {}
