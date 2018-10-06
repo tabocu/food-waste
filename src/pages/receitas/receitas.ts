@@ -15,12 +15,14 @@ import { ReceitaPage } from '../receita/receita';
 })
 export class ReceitasPage {
   receitas: ReceitaModel[];
+  filter: number[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public receitasProvider: ReceitasProvider,
               public alimentosProvider: AlimentosProvider) {
 
+    this.filter = this.navParams.get('filter');
     this.receitas = this.receitasProvider.retrieveAll();
   }
 
