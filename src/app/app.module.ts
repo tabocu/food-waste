@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlimentosProvider } from '../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../providers/receitas/receitas';
 import { PrecosProvider } from '../providers/precos/precos';
+import { IndexedPipe } from '../pipes/indexed/indexed';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PrecosProvider } from '../providers/precos/precos';
     ReceitaPage,
     ReceitasPage,
     PrecosPage,
-    TabsPage
+    TabsPage,
+    IndexedPipe,
   ],
   imports: [
     BrowserModule,
