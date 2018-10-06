@@ -12,6 +12,7 @@ import { AlimentosProvider } from '../../providers/alimentos/alimentos'
 export class AlimentosPage {
 
   isModal: boolean;
+  filter: number[];
 
   alimentos: AlimentoModel[];
 
@@ -22,6 +23,7 @@ export class AlimentosPage {
     public alimentosProvider: AlimentosProvider) {
 
     this.isModal = this.navParams.get('isModal');
+    this.filter = this.navParams.get('filter');
     this.alimentos = this.alimentosProvider.retrieveAll();
   }
 

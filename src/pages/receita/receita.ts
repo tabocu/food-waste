@@ -35,7 +35,13 @@ export class ReceitaPage {
   }
 
   fetchAlimento() {
-    let alimentosModal = this.modalCtrl.create(AlimentosPage, { isModal: true });
+    let alimentosModal = this.modalCtrl.create(AlimentosPage, { 
+      isModal: true,
+      filter: this.receita.quantidades.map(
+        (quantidade) => {
+          return quantidade.alimentoKey;
+        })
+      });
     alimentosModal.onDidDismiss((alimentoKey : number) => {
       this.receita.quantidades.push(new QuantidadeModel(alimentoKey, 100));
       this.updateQuantidadeTotal();

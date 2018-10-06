@@ -11,7 +11,8 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let alimento of alimentos" (click)="selectAlimento(alimento.getKey())">
+    <button ion-item *ngFor="let alimento of alimentos | indexed : filter"
+      (click)="selectAlimento(alimento.getKey())">
       <h2>{{alimento.nome}}</h2>
       <p>{{alimento.tipo}}</p>
     </button>
