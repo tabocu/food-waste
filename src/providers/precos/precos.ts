@@ -1,17 +1,42 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PrecoModel } from '../../models/receita/receita';
 
-/*
-  Generated class for the PrecosProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class PrecosProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello PrecosProvider Provider');
+  private keyCounter: number = 0;
+  private precos: PrecoModel[] = [];
+
+  constructor() {
+
   }
 
+  private getNextKey(): number {
+    return this.keyCounter++;
+  }
+
+  private getIndex(key: number): number {
+    return this.precos.findIndex((preco) => { return preco.getKey() == key; });
+  }
+
+  create(preco: PrecoModel) {
+    preco.setKey(this.getNextKey());
+    this.precos.push(preco);
+  }
+
+  retrieve(key: number): PrecoModel {
+    return this.precos[this.getIndex(key)].clone();
+  }
+
+  retrieveAll(): PrecoModel[] {
+    return this.precos;
+  }
+
+  update(preco: PrecoModel) {
+    this.precos[this.getIndex(preco.getKey())] = preco;
+  }
+
+  delete(key: number) {
+    delete this.precos[this.getIndex(key)];
+  }
 }
