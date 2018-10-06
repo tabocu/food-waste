@@ -14,7 +14,7 @@
     <button ion-item *ngFor="let receita of receitas | indexed : filter"
       (click)="selectReceita(receita.getKey())">
       <h2>{{receita.nome}}</h2>
-      <p>{{getAlimentosText(receita.getKey())}}</p>
+      <p>{{getAlimentosTextOfReceita(receita.getKey())}}</p>
     </button>
   </ion-list>
 </ion-content>

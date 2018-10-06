@@ -34,15 +34,16 @@ export class ReceitasPage {
     console.log('ionViewDidLoad ReceitasPage');
   }
 
-  getQuantidades(key: number) : QuantidadeModel[] {
-    return this.receitasProvider.retrieve(key).quantidades;
+  getQuantidadesOfReceita(receitaKey: number) : QuantidadeModel[] {
+    return this.receitasProvider.retrieve(receitaKey).quantidades;
   }
 
-  getAlimentosText(key: number) : string {
-    let alimentos: string[] = [];
-    this.getQuantidades(key).forEach((quantidade) => { 
-      alimentos.push(this.alimentosProvider.retrieve(quantidade.alimentoKey).nome);
-    })
+  getAlimentosTextOfReceita(receitaKey: number) : string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(receitaKey).map(
+      (quantidade: QuantidadeModel) => {
+        return this.alimentosProvider.retrieve(quantidade.alimentoKey).nome;
+      }
+    )
     if (alimentos.length > 0) 
       return alimentos.join(', ');
     else
