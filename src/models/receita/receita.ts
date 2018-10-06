@@ -35,8 +35,8 @@ export
   implements ClonableModel<PrecoModel> {
 
   constructor(
-    public valor: number,
-    public alimentoKey: number) {
+    public receitaKey: number,
+    public valor: number) {
     super();
   }
 
