@@ -31,12 +31,13 @@ export
 
 export
   class PrecoModel
+  extends IndexedModel
   implements ClonableModel<PrecoModel> {
 
   constructor(
-    public preco: number,
-    public alimento: number) {
-    
+    public valor: number,
+    public alimentoKey: number) {
+    super();
   }
 
   clone(): PrecoModel {
