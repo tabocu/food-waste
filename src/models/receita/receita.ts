@@ -41,6 +41,9 @@ export
   }
 
   clone(): PrecoModel {
-    throw new Error("Method not implemented.");
+    let precoModelCopy = new PrecoModel(this.receitaKey, this.valor);
+    precoModelCopy.key = this.key;
+
+    return precoModelCopy;
   }
  }
