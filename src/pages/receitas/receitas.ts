@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { ReceitaModel } from '../../models/receita/receita'
 import { QuantidadeModel } from '../../models/alimento/alimento';
@@ -15,13 +15,17 @@ import { ReceitaPage } from '../receita/receita';
 })
 export class ReceitasPage {
   receitas: ReceitaModel[];
+
+  isModal: boolean;
   filter: number[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public viewCtrl: ViewController,
               public receitasProvider: ReceitasProvider,
               public alimentosProvider: AlimentosProvider) {
 
+    this.isModal = this.navParams.get('isModal');
     this.filter = this.navParams.get('filter');
     this.receitas = this.receitasProvider.retrieveAll();
   }
@@ -49,7 +53,12 @@ export class ReceitasPage {
     this.navCtrl.push(ReceitaPage);
   }
 
-  selectReceita(key: number) {
-    this.navCtrl.push(ReceitaPage, { key: key });
+  selecReceita(key: number) {
+    console.log('AlimentoKey: ' + key);
+    if (this.isModal) {
+      this.viewCtrl.dismiss(key);
+    } else {
+      this.navCtrl.push(ReceitaPage, { key: key });
+    }
   }
 }
