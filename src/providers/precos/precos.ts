@@ -8,7 +8,8 @@ export class PrecosProvider {
   private precos: PrecoModel[] = [];
 
   constructor() {
-
+    this.create(new PrecoModel(0, 4.75));
+    this.create(new PrecoModel(2, 7.15));
   }
 
   private getNextKey(): number {
