@@ -1,37 +1,28 @@
 import { Injectable } from '@angular/core';
 
 import { AlimentoModel } from '../../models/alimento/alimento'
+import { KeyGen, Key } from '../../utils/keygen';
 
 @Injectable()
 export class AlimentosProvider {
 
-  private keyCounter: number = 0;
+  private keyGen: KeyGen<AlimentoModel> = KeyGen.createKeyGen<AlimentoModel>();
   private alimentos: AlimentoModel[] = [];
 
-  constructor() {
-    this.create(new AlimentoModel("Arroz branco", "Carboidrato"));
-    this.create(new AlimentoModel("Feijão carioquinha", "Carboidrato"));
-    this.create(new AlimentoModel("Carne de panela", "Proteina"));
-    this.create(new AlimentoModel("Carne moida", "Proteina"));
-    this.create(new AlimentoModel("Quiabo", "Legume"));
-    this.create(new AlimentoModel("Farofa de ovo", "Misto"));
-    this.create(new AlimentoModel("Frango com quiabo", "Proteina"));
-  }
+  constructor() {}
 
-  private getNextKey() : number {
-    return this.keyCounter++;
-  }
-
-  private getIndex(key: number) : number {
+  private getIndex(key: Key<AlimentoModel>) : number {
     return this.alimentos.findIndex((alimento) => { return alimento.getKey() == key; });
   }
 
-  create(alimento: AlimentoModel) {
-    alimento.setKey(this.getNextKey());
+  create(alimento: AlimentoModel): Key<AlimentoModel> {
+    let key = this.keyGen.getNextKey();
+    alimento.setKey(key);
     this.alimentos.push(alimento);
+    return key;
   }
 
-  retrieve(key: number) : AlimentoModel {
+  retrieve(key: Key<AlimentoModel>) : AlimentoModel {
     return this.alimentos[this.getIndex(key)].clone();
   }
 
@@ -43,7 +34,7 @@ export class AlimentosProvider {
     this.alimentos[this.getIndex(alimento.getKey())] = alimento;
   }
 
-  delete(key: number) {
+  delete(key: Key<AlimentoModel>) {
     delete this.alimentos[this.getIndex(key)];
   }
 }

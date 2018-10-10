@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlimentoModel } from '../../models/alimento/alimento'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos'
+import { Key } from '../../utils/keygen';
 
 @Component({
   selector: 'page-alimento',
@@ -15,7 +16,7 @@ export class AlimentoPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alimentosProvider: AlimentosProvider) {
-    let key = this.navParams.get('key');
+    let key: Key<AlimentoModel> = this.navParams.get('key');
     if (key != null) this.alimento = this.alimentosProvider.retrieve(key);
   }
 

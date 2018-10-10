@@ -1,9 +1,10 @@
 import { IndexedModel } from "../utils/indexed";
 import { ClonableModel } from "../utils/clonable";
+import { Key } from "../../utils/keygen";
 
 export
   class AlimentoModel 
-  extends IndexedModel
+  extends IndexedModel<AlimentoModel>
   implements ClonableModel<AlimentoModel> {
 
   constructor(
@@ -27,7 +28,7 @@ export
   implements ClonableModel<QuantidadeModel> {
 
   constructor(
-    public readonly alimentoKey: number,
+    public readonly alimentoKey: Key<AlimentoModel>,
     public quantidade: number) { }
 
   clone() : QuantidadeModel {

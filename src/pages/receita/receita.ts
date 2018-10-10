@@ -6,6 +6,7 @@ import { AlimentosPage } from '../alimentos/alimentos';
 import { QuantidadeModel, AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
+import { Key } from '../../utils/keygen';
 
 @Component({
   selector: 'page-receita',
@@ -21,7 +22,7 @@ export class ReceitaPage {
     public navParams: NavParams,
     public receitasProvider: ReceitasProvider,
     public alimentosProvider: AlimentosProvider) {
-    let key = this.navParams.get('key');
+    let key: Key <ReceitaModel> = this.navParams.get('key');
     if (key != null) this.receita = this.receitasProvider.retrieve(key);
     this.updateQuantidadeTotal();
   }
@@ -30,7 +31,7 @@ export class ReceitaPage {
     console.log('ionViewDidLoad ReceitaPage');
   }
 
-  getAlimento(key: number) : AlimentoModel {
+  getAlimento(key: Key<AlimentoModel>) : AlimentoModel {
       return this.alimentosProvider.retrieve(key);
   }
 
@@ -42,8 +43,8 @@ export class ReceitaPage {
           return quantidade.alimentoKey;
         })
       });
-    alimentosModal.onDidDismiss((alimentoKey : number) => {
-      this.receita.quantidades.push(new QuantidadeModel(alimentoKey, 100));
+    alimentosModal.onDidDismiss((key : Key<AlimentoModel>) => {
+      this.receita.quantidades.push(new QuantidadeModel(key, 100));
       this.updateQuantidadeTotal();
     });
     alimentosModal.present();

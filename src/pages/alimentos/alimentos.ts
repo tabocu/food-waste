@@ -4,6 +4,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlimentoPage } from '../alimento/alimento'
 import { AlimentoModel } from '../../models/alimento/alimento'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos'
+import { Key } from '../../utils/keygen';
 
 @Component({
   selector: 'page-alimentos',
@@ -12,7 +13,7 @@ import { AlimentosProvider } from '../../providers/alimentos/alimentos'
 export class AlimentosPage {
 
   isModal: boolean;
-  filter: number[];
+  filter: Key<AlimentoModel>[];
 
   alimentos: AlimentoModel[];
 
@@ -31,8 +32,7 @@ export class AlimentosPage {
     this.navCtrl.push(AlimentoPage);
   }
 
-  selectAlimento(key: number) {
-    console.log('AlimentoKey: ' + key);
+  selectAlimento(key: Key<AlimentoModel>) {
     if (this.isModal) {
       this.viewCtrl.dismiss(key);
     } else {

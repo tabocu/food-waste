@@ -1,14 +1,16 @@
-export class IndexedModel {
+import { Key } from "../../utils/keygen";
 
-    protected key: number = null;
+export class IndexedModel<T> {
+
+    protected key: Key<T> = null;
 
     constructor() {};
 
-    setKey(key: number) {
+    setKey(key: Key<T>) {
         this.key = key;
     }
 
-    getKey(): number {
+    getKey(): Key<T> {
         return this.key;
     }
 }

@@ -1,10 +1,11 @@
 import { IndexedModel } from "../utils/indexed";
 import { ClonableModel } from "../utils/clonable";
 import { QuantidadeModel } from "../alimento/alimento";
+import { Key } from "../../utils/keygen";
 
 export
   class ReceitaModel
-  extends IndexedModel
+  extends IndexedModel<ReceitaModel>
   implements ClonableModel<ReceitaModel> {
 
   quantidades: QuantidadeModel[] = [];
@@ -31,11 +32,11 @@ export
 
 export
   class PrecoModel
-  extends IndexedModel
+  extends IndexedModel<PrecoModel>
   implements ClonableModel<PrecoModel> {
 
   constructor(
-    public receitaKey: number,
+    public receitaKey: Key<ReceitaModel>,
     public valor: number) {
     super();
   }

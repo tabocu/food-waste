@@ -8,22 +8,25 @@ import { ReceitasProvider } from '../../providers/receitas/receitas'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 
 import { ReceitaPage } from '../receita/receita';
+import { Key } from '../../utils/keygen';
 
 @Component({
   selector: 'page-receitas',
   templateUrl: 'receitas.html',
 })
 export class ReceitasPage {
-  receitas: ReceitaModel[];
 
   isModal: boolean;
-  filter: number[];
+  filter: Key<ReceitaModel>[];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public receitasProvider: ReceitasProvider,
-              public alimentosProvider: AlimentosProvider) {
+  receitas: ReceitaModel[];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public receitasProvider: ReceitasProvider,
+    public alimentosProvider: AlimentosProvider) {
 
     this.isModal = this.navParams.get('isModal');
     this.filter = this.navParams.get('filter');
@@ -31,15 +34,16 @@ export class ReceitasPage {
   }
 
   ionViewDidLoad() {
+    this.receitas = this.receitasProvider.retrieveAll();
     console.log('ionViewDidLoad ReceitasPage');
   }
 
-  getQuantidadesOfReceita(receitaKey: number) : QuantidadeModel[] {
-    return this.receitasProvider.retrieve(receitaKey).quantidades;
+  getQuantidadesOfReceita(key: Key<ReceitaModel>) : QuantidadeModel[] {
+    return this.receitasProvider.retrieve(key).quantidades;
   }
 
-  getAlimentosTextOfReceita(receitaKey: number) : string {
-    let alimentos: string[] = this.getQuantidadesOfReceita(receitaKey).map(
+  getAlimentosTextOfReceita(key: Key<ReceitaModel>) : string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
       (quantidade: QuantidadeModel) => {
         return this.alimentosProvider.retrieve(quantidade.alimentoKey).nome;
       }
@@ -54,8 +58,7 @@ export class ReceitasPage {
     this.navCtrl.push(ReceitaPage);
   }
 
-  selecReceita(key: number) {
-    console.log('AlimentoKey: ' + key);
+  selectReceita(key: Key<ReceitaModel>) {
     if (this.isModal) {
       this.viewCtrl.dismiss(key);
     } else {

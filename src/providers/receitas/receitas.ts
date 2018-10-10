@@ -2,45 +2,28 @@ import { Injectable } from '@angular/core';
 
 import { ReceitaModel } from '../../models/receita/receita'
 import { QuantidadeModel } from '../../models/alimento/alimento';
+import { KeyGen, Key } from '../../utils/keygen';
 
 @Injectable()
 export class ReceitasProvider {
 
-  private keyCounter: number = 0;
+  private keyGen: KeyGen<ReceitaModel> = KeyGen.createKeyGen<ReceitaModel>();
   private receitas: ReceitaModel[] = [];
 
-  constructor() {
-    let recp1 = new ReceitaModel("Tropeiro");
-    recp1.quantidades.push(new QuantidadeModel(1, 200));
-    recp1.quantidades.push(new QuantidadeModel(2, 200));
-    recp1.quantidades.push(new QuantidadeModel(5, 200));
-    this.create(recp1);
+  constructor() {}
 
-    let recp2 = new ReceitaModel("Mixido");
-    recp2.quantidades.push(new QuantidadeModel(0, 200));
-    recp2.quantidades.push(new QuantidadeModel(1, 200));
-    recp2.quantidades.push(new QuantidadeModel(3, 200));
-    recp2.quantidades.push(new QuantidadeModel(5, 200));
-    this.create(recp2);
-
-    this.create(new ReceitaModel("Fricasse"));
-    this.create(new ReceitaModel("Macarrão na chapa"));
-  }
-
-  private getNextKey() : number {
-    return this.keyCounter++;
-  }
-
-  private getIndex(key: number) : number {
+  private getIndex(key: Key<ReceitaModel>) : number {
     return this.receitas.findIndex((alimento) => { return alimento.getKey() == key; });
   }
 
-  create(alimento: ReceitaModel) {
-    alimento.setKey(this.getNextKey());
+  create(alimento: ReceitaModel): Key<ReceitaModel> {
+    let key = this.keyGen.getNextKey();
+    alimento.setKey(key);
     this.receitas.push(alimento);
+    return key;
   }
 
-  retrieve(key: number) : ReceitaModel {
+  retrieve(key: Key<ReceitaModel>) : ReceitaModel {
     return this.receitas[this.getIndex(key)].clone();
   }
 
@@ -52,7 +35,7 @@ export class ReceitasProvider {
     this.receitas[this.getIndex(alimento.getKey())] = alimento;
   }
 
-  delete(key: number) {
+  delete(key: Key<ReceitaModel>) {
     delete this.receitas[this.getIndex(key)];
   }
 }

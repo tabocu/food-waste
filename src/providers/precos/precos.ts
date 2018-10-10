@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
 import { PrecoModel } from '../../models/receita/receita';
+import { KeyGen, Key } from '../../utils/keygen';
 
 @Injectable()
 export class PrecosProvider {
 
-  private keyCounter: number = 0;
+  private keyGen: KeyGen<PrecoModel> = KeyGen.createKeyGen<PrecoModel>();
   private precos: PrecoModel[] = [];
 
-  constructor() {
-    this.create(new PrecoModel(0, 4.75));
-    this.create(new PrecoModel(2, 7.15));
-  }
+  constructor() {}
 
-  private getNextKey(): number {
-    return this.keyCounter++;
-  }
-
-  private getIndex(key: number): number {
+  private getIndex(key: Key<PrecoModel>): number {
     return this.precos.findIndex((preco) => { return preco.getKey() == key; });
   }
 
-  create(preco: PrecoModel) {
-    preco.setKey(this.getNextKey());
+  create(preco: PrecoModel): Key<PrecoModel> {
+    let key = this.keyGen.getNextKey();
+    preco.setKey(key);
     this.precos.push(preco);
+    return key;
   }
 
-  retrieve(key: number): PrecoModel {
+  retrieve(key: Key<PrecoModel>): PrecoModel {
     return this.precos[this.getIndex(key)].clone();
   }
 
@@ -37,7 +33,7 @@ export class PrecosProvider {
     this.precos[this.getIndex(preco.getKey())] = preco;
   }
 
-  delete(key: number) {
+  delete(key: Key<PrecoModel>) {
     delete this.precos[this.getIndex(key)];
   }
 }
