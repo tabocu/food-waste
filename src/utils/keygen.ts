@@ -2,14 +2,16 @@ export abstract class KeyGen<T> {
   abstract getNextKey(): Key<T>;
   abstract resetKeys();
 
+  static getInvalidKey<T>() : Key<T> {
+    return new InvalidKeyImp<T>();
+  }
+
   static createKeyGen<T>(): KeyGen<T> {
     return new KeyGenImp<T>();
   }
 }
 
-export interface Key<T> {
-  isValid(): boolean;
-}
+export interface Key<T> { isValid(): boolean; }
 
 class KeyGenImp<T> implements KeyGen<T> {
 
@@ -35,4 +37,8 @@ class KeyImp<T> implements Key<T> {
   isValid(): boolean {
     return this.keyGen.keySet.has(this);
   }
+}
+
+class InvalidKeyImp<T> implements Key<T> {
+  isValid(): boolean { return false; }
 }
