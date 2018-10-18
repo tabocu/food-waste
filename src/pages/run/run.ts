@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { QuantidadePage } from '../quantidade/quantidade';
+import { QuantidadesPage } from '../quantidades/quantidades';
 
 @Component({
   selector: 'page-run',
@@ -16,6 +16,6 @@ export class RunPage {
   }
 
   runOptimizationWizard() {
-    this.navCtrl.push(QuantidadePage);
+    this.navCtrl.push(QuantidadesPage);
   }
 }
