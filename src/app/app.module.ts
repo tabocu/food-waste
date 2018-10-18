@@ -17,6 +17,8 @@ import { AlimentosProvider } from '../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../providers/receitas/receitas';
 import { PrecosProvider } from '../providers/precos/precos';
 import { IndexedPipe } from '../pipes/indexed/indexed';
+import { RunPage } from '../pages/run/run';
+import { QuantidadePage } from '../pages/quantidade/quantidade';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { IndexedPipe } from '../pipes/indexed/indexed';
     ReceitasPage,
     PrecosPage,
     PrecoPage,
+    QuantidadePage,
+    RunPage,
     TabsPage,
     IndexedPipe,
   ],
@@ -43,6 +47,8 @@ import { IndexedPipe } from '../pipes/indexed/indexed';
     ReceitasPage,
     PrecosPage,
     PrecoPage,
+    QuantidadePage,
+    RunPage,
     TabsPage
   ],
   providers: [
