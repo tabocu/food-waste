@@ -1,7 +1,7 @@
 import { IndexedModel } from "../utils/indexed";
 import { ClonableModel } from "../utils/clonable";
 import { QuantidadeModel } from "../alimento/alimento";
-import { Key } from "../../utils/keygen";
+import { Key, KeyGen } from "../../utils/keygen";
 
 export
   class ReceitaModel
@@ -36,8 +36,8 @@ export
   implements ClonableModel<PrecoModel> {
 
   constructor(
-    public receitaKey: Key<ReceitaModel>,
-    public valor: number) {
+    public receitaKey: Key<ReceitaModel> = KeyGen.getInvalidKey<ReceitaModel>(),
+    public valor: number = 0) {
     super();
   }
 
