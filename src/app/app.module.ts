@@ -8,6 +8,7 @@ import { AlimentosPage } from '../pages/alimentos/alimentos'
 import { ReceitaPage } from '../pages/receita/receita'
 import { ReceitasPage } from '../pages/receitas/receitas'
 import { PrecosPage } from '../pages/precos/precos'
+import { PrecoPage } from '../pages/preco/preco'
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -25,6 +26,7 @@ import { IndexedPipe } from '../pipes/indexed/indexed';
     ReceitaPage,
     ReceitasPage,
     PrecosPage,
+    PrecoPage,
     TabsPage,
     IndexedPipe,
   ],
@@ -40,6 +42,7 @@ import { IndexedPipe } from '../pipes/indexed/indexed';
     ReceitaPage,
     ReceitasPage,
     PrecosPage,
+    PrecoPage,
     TabsPage
   ],
   providers: [
