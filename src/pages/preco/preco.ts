@@ -19,13 +19,15 @@ export class PrecoPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public precosProvider: PrecosProvider,
-    public receitasProvider: ReceitasProvider) {
-    let key: Key<PrecoModel> = this.navParams.get('key');
-    if (key != null) this.preco = this.precosProvider.retrieve(key);
-  }
+    public receitasProvider: ReceitasProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrecoPage');
+  }
+
+  ionViewDidEnter() {
+    let key: Key<PrecoModel> = this.navParams.get('key');
+    if (key != null) this.preco = this.precosProvider.retrieve(key);
   }
 
   getReceita(key: Key<ReceitaModel>): ReceitaModel {

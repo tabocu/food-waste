@@ -16,26 +16,26 @@ import { Key } from '../../utils/keygen';
 })
 export class ReceitasPage {
 
-  isModal: boolean;
-  filter: Key<ReceitaModel>[];
+  isModal: boolean = false;
+  filter: Key<ReceitaModel>[] = [];
 
-  receitas: ReceitaModel[];
+  receitas: ReceitaModel[] = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public receitasProvider: ReceitasProvider,
-    public alimentosProvider: AlimentosProvider) {
+    public alimentosProvider: AlimentosProvider) {}
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ReceitasPage');
+  }
+
+  ionViewDidEnter() {
     this.isModal = this.navParams.get('isModal');
     this.filter = this.navParams.get('filter');
     this.receitas = this.receitasProvider.retrieveAll();
-  }
-
-  ionViewDidLoad() {
-    this.receitas = this.receitasProvider.retrieveAll();
-    console.log('ionViewDidLoad ReceitasPage');
   }
 
   getQuantidadesOfReceita(key: Key<ReceitaModel>) : QuantidadeModel[] {

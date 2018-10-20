@@ -14,21 +14,23 @@ import { Key } from '../../utils/keygen';
 })
 export class ReceitaPage {
   receita: ReceitaModel = new ReceitaModel();
-  quantidadeTotal: number;
+  quantidadeTotal: number = 0;
 
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public receitasProvider: ReceitasProvider,
-    public alimentosProvider: AlimentosProvider) {
-    let key: Key <ReceitaModel> = this.navParams.get('key');
-    if (key != null) this.receita = this.receitasProvider.retrieve(key);
-    this.updateQuantidadeTotal();
-  }
+    public alimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitaPage');
+  }
+
+  ionViewDidEnter() {
+    let key: Key <ReceitaModel> = this.navParams.get('key');
+    if (key != null) this.receita = this.receitasProvider.retrieve(key);
+    this.updateQuantidadeTotal();
   }
 
   getAlimento(key: Key<AlimentoModel>) : AlimentoModel {

@@ -14,18 +14,23 @@ import { PrecoPage } from '../preco/preco';
 })
 export class PrecosPage {
 
-  isModal: boolean;
-  filter: Key<PrecoModel>[];
+  isModal: boolean = false;
+  filter: Key<PrecoModel>[] = [];
 
-  precos: PrecoModel[];
+  precos: PrecoModel[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viewCtrl: ViewController,
               public precosProvider: PrecosProvider,
               public receitasProvider: ReceitasProvider,
-              public alimentosProvider: AlimentosProvider) {
+              public alimentosProvider: AlimentosProvider) {}
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad PrecoPage');
+  }
+
+  ionViewDidEnter() {
     this.isModal = this.navParams.get('isModal');
     this.filter = this.navParams.get('filter');
     this.precos = this.precosProvider.retrieveAll();

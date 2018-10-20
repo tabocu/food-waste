@@ -15,12 +15,16 @@ export class AlimentoPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public alimentosProvider: AlimentosProvider) {
+    public alimentosProvider: AlimentosProvider) {}
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AlimentoPage');
+  }
+
+  ionViewDidEnter() {
     let key: Key<AlimentoModel> = this.navParams.get('key');
     if (key != null) this.alimento = this.alimentosProvider.retrieve(key);
   }
-
-  ionViewDidLoad() {}
 
   accept() {
     if (this.alimento.getKey() == null) this.alimentosProvider.create(this.alimento);

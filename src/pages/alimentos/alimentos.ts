@@ -12,17 +12,22 @@ import { Key } from '../../utils/keygen';
 })
 export class AlimentosPage {
 
-  isModal: boolean;
-  filter: Key<AlimentoModel>[];
+  isModal: boolean = false;
+  filter: Key<AlimentoModel>[] = [];
 
-  alimentos: AlimentoModel[];
+  alimentos: AlimentoModel[] = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public alimentosProvider: AlimentosProvider) {
+    public alimentosProvider: AlimentosProvider) {}
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AlimentosPage');
+  }
+
+  ionViewDidEnter() {
     this.isModal = this.navParams.get('isModal');
     this.filter = this.navParams.get('filter');
     this.alimentos = this.alimentosProvider.retrieveAll();
