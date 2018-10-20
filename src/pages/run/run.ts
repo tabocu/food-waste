@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { App } from 'ionic-angular';
 import { QuantidadesPage } from '../quantidades/quantidades';
 
 @Component({
@@ -8,7 +8,7 @@ import { QuantidadesPage } from '../quantidades/quantidades';
 })
 export class RunPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public appCtrl: App) {
   }
 
   ionViewDidLoad() {
@@ -16,6 +16,6 @@ export class RunPage {
   }
 
   runOptimizationWizard() {
-    this.navCtrl.push(QuantidadesPage);
+    this.appCtrl.getRootNav().push(QuantidadesPage)
   }
 }

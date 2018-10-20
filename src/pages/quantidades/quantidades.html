@@ -1,9 +1,23 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Quantidades</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="fetchAlimento()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let quantidade of quantidades" no-lines>
+      <ion-input value="{{getNomeOfAlimento(quantidade.alimentoKey)}}" readonly="true" no-lines></ion-input>
+      <ion-input class="value-selector" fixed type="number" [(ngModel)]="quantidade.quantidade" item-end text-right no-lines></ion-input>
+      <ion-label class="label-right">gramas</ion-label>
+      <button ion-button icon-only clear item-end (click)="removeQuantidade(quantidade)">
+        <ion-icon name="trash" color="danger"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
 </ion-content>
