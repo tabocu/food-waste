@@ -8,7 +8,16 @@ import { ReceitasProvider } from '../receitas/receitas';
 @Injectable()
 export class OtimizacaoProvider {
 
-  url = 'http://127.0.0.1:3000/';
+  private static url: string = 'http://127.0.0.1:3000/opt';
+  private static headers: HttpHeaders = OtimizacaoProvider.initHeader();
+
+  private static initHeader(): HttpHeaders {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json');
+    //headers.append('Access-Control-Allow-Origin', '*');
+    return headers;
+  }
 
   constructor(
     public http: HttpClient,
@@ -55,17 +64,26 @@ export class OtimizacaoProvider {
     return json;
   }
 
-  sendOpt(quantidades: QuantidadeModel[]) {
-    var headers = new HttpHeaders();
-    headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json');
-    //headers.append('Access-Control-Allow-Origin', '*');
-    let json = this.getBundle(quantidades);
-    this.http.post("http://127.0.0.1:3000/opt", json, { headers: headers })
-      .subscribe(data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      });
+  sendOpt(
+    quantidades: QuantidadeModel[],
+    resultado: () => void, erro: () => void) {
+    try {
+      let json = this.getBundle(quantidades);
+      this.http.post(
+        OtimizacaoProvider.url,
+        json,
+        { headers: OtimizacaoProvider.headers }
+      ).subscribe(data => {
+          try {
+            resultado();
+          } catch {
+            erro();
+          }
+        }, error => {
+          erro();
+        });
+    } catch {
+      erro();      
+    }
   }
 }
