@@ -22,12 +22,13 @@ import { ResultadoPage } from '../pages/resultado/resultado';
 import { TabsPage } from '../pages/tabs/tabs';
 import { RunPage } from '../pages/run/run';
 
+import { IndexedPipe } from '../pipes/indexed/indexed';
+
 import { AlimentosProvider } from '../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../providers/receitas/receitas';
 import { PrecosProvider } from '../providers/precos/precos';
 import { OtimizacaoProvider } from '../providers/otimizacao/otimizacao';
-
-import { IndexedPipe } from '../pipes/indexed/indexed';
+import { ResultadosProvider } from '../providers/resultados/resultados';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { IndexedPipe } from '../pipes/indexed/indexed';
     AlimentosProvider,
     ReceitasProvider,
     PrecosProvider,
-    OtimizacaoProvider
+    OtimizacaoProvider,
+    ResultadosProvider
   ]
 })
 export class AppModule {}
