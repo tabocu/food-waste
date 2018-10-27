@@ -1,17 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/*
-  Generated class for the ResultadosProvider provider.
+import { KeyGen } from '../../utils/keygen';
+import { ResultadoModel } from '../../models/resultado/resultado';
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class ResultadosProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello ResultadosProvider Provider');
-  }
+  private keyGen: KeyGen<ResultadoModel> = KeyGen.createKeyGen<ResultadoModel>();
+  private receitas: ResultadoModel[] = [];
+
+  constructor() {}
 
 }
