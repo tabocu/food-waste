@@ -19,6 +19,8 @@ import { PrecosProvider } from '../providers/precos/precos';
 import { IndexedPipe } from '../pipes/indexed/indexed';
 import { RunPage } from '../pages/run/run';
 import { QuantidadesPage } from '../pages/quantidades/quantidades';
+import { OtimizacaoProvider } from '../providers/otimizacao/otimizacao';
+import { HttpClientModule } from '@angular/common/http'; 
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { QuantidadesPage } from '../pages/quantidades/quantidades';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -57,7 +60,8 @@ import { QuantidadesPage } from '../pages/quantidades/quantidades';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AlimentosProvider,
     ReceitasProvider,
-    PrecosProvider
+    PrecosProvider,
+    OtimizacaoProvider
   ]
 })
 export class AppModule {}
