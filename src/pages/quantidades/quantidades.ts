@@ -4,6 +4,7 @@ import { QuantidadeModel, AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { Key } from '../../utils/keygen';
 import { AlimentosPage } from '../alimentos/alimentos';
+import { OtimizacaoProvider } from '../../providers/otimizacao/otimizacao';
 
 @Component({
   selector: 'page-quantidades',
@@ -17,6 +18,7 @@ export class QuantidadesPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public otimizacaoProvider: OtimizacaoProvider,
     public alimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
@@ -45,5 +47,9 @@ export class QuantidadesPage {
       this.quantidades.push(new QuantidadeModel(key, 1000));
     });
     alimentosModal.present();
+  }
+
+  otimizar() {
+    this.otimizacaoProvider.sendOpt(this.quantidades);
   }
 }
