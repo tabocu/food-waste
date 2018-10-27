@@ -4,9 +4,10 @@ import { PrecosProvider } from '../../providers/precos/precos';
 import { PrecoModel, ReceitaModel } from '../../models/receita/receita';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
-import { QuantidadeModel } from '../../models/alimento/alimento';
+import { QuantidadeModel } from '../../models/quantidade/quantidade';
 import { Key } from '../../utils/keygen';
 import { PrecoPage } from '../preco/preco';
+import { AlimentoModel } from '../../models/alimento/alimento';
 
 @Component({
   selector: 'page-precos',
@@ -52,14 +53,14 @@ export class PrecosPage {
     return this.receitasProvider.retrieve(key).nome;
   }
 
-  getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel[] {
+  getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel<AlimentoModel>[] {
     return this.receitasProvider.retrieve(key).quantidades;
   }
 
   getAlimentosTextOfReceita(key: Key<ReceitaModel>): string {
     let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
-      (quantidade: QuantidadeModel) => {
-        return this.alimentosProvider.retrieve(quantidade.alimentoKey).nome;
+      (quantidade: QuantidadeModel<AlimentoModel>) => {
+        return this.alimentosProvider.retrieve(quantidade.key).nome;
       }
     )
 

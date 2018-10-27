@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { ReceitaModel } from '../../models/receita/receita'
-import { QuantidadeModel } from '../../models/alimento/alimento';
 import { KeyGen, Key } from '../../utils/keygen';
 
 @Injectable()

@@ -30,7 +30,7 @@
       </button>
     </ion-list-header>
     <ion-item *ngFor="let quantidade of receita.quantidades" no-lines>
-      <ion-input value="{{getAlimento(quantidade.alimentoKey).nome}}" readonly="true" no-lines></ion-input>
+      <ion-input value="{{getAlimento(quantidade.key).nome}}" readonly="true" no-lines></ion-input>
       <ion-input class="value-selector" fixed type="number" [(ngModel)]="quantidade.quantidade" (ionChange)='updateQuantidadeTotal()' item-end text-right no-lines></ion-input>
       <ion-label class="label-right">gramas</ion-label>
       <button ion-button icon-only clear item-end (click)="removeQuantidade(quantidade)">

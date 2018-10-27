@@ -1,14 +1,15 @@
 import { IndexedModel } from "../utils/indexed";
 import { ClonableModel } from "../utils/clonable";
-import { QuantidadeModel } from "../alimento/alimento";
+import { QuantidadeModel } from "../quantidade/quantidade";
 import { Key, KeyGen } from "../../utils/keygen";
+import { AlimentoModel } from "../alimento/alimento";
 
 export
   class ReceitaModel
   extends IndexedModel<ReceitaModel>
   implements ClonableModel<ReceitaModel> {
 
-  quantidades: QuantidadeModel[] = [];
+  quantidades: QuantidadeModel<AlimentoModel>[] = [];
 
   constructor(public nome?: string) {
     super();

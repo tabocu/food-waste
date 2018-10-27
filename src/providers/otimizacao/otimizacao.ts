@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QuantidadeModel, AlimentoModel } from '../../models/alimento/alimento';
+import { AlimentoModel } from '../../models/alimento/alimento';
 import { PrecosProvider } from '../precos/precos';
 import { Key } from '../../utils/keygen';
 import { ReceitasProvider } from '../receitas/receitas';
+import { QuantidadeModel } from '../../models/quantidade/quantidade';
 
 @Injectable()
 export class OtimizacaoProvider {
@@ -37,7 +38,7 @@ export class OtimizacaoProvider {
     let json = {};
     for (let receita of this.receitasProvider.retrieveAll()) {
       for (let quantidade of receita.quantidades) {
-        if (quantidade.alimentoKey == alimentoKey) {
+        if (quantidade.key == alimentoKey) {
           json[String(receita.getKey().getId())] = quantidade.quantidade;
         }
       }
@@ -45,18 +46,18 @@ export class OtimizacaoProvider {
     return json;
   }
 
-  getRestricoes(quantidades: QuantidadeModel[]) {
+  getRestricoes(quantidades: QuantidadeModel<AlimentoModel>[]) {
     let json = {};
     for (let quantidade of quantidades) {
-      json[String(quantidade.alimentoKey.getId())] = {
-        receitas: this.getReceitas(quantidade.alimentoKey),
+      json[String(quantidade.key.getId())] = {
+        receitas: this.getReceitas(quantidade.key),
         max: quantidade.quantidade
       }
     }
     return json;
   }
 
-  getBundle(quantidades: QuantidadeModel[]) {
+  getBundle(quantidades: QuantidadeModel<AlimentoModel>[]) {
     let json = {
       objetiva: this.getObjetiva(),
       restricoes: this.getRestricoes(quantidades),
@@ -65,7 +66,7 @@ export class OtimizacaoProvider {
   }
 
   sendOpt(
-    quantidades: QuantidadeModel[],
+    quantidades: QuantidadeModel<AlimentoModel>[],
     resultado: () => void, erro: () => void) {
     try {
       let json = this.getBundle(quantidades);

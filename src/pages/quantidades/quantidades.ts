@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
-import { QuantidadeModel, AlimentoModel } from '../../models/alimento/alimento';
+import { ModalController, AlertController, LoadingController } from 'ionic-angular';
+import { AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { Key } from '../../utils/keygen';
 import { AlimentosPage } from '../alimentos/alimentos';
 import { OtimizacaoProvider } from '../../providers/otimizacao/otimizacao';
+import { QuantidadeModel } from '../../models/quantidade/quantidade';
 
 @Component({
   selector: 'page-quantidades',
@@ -12,11 +13,9 @@ import { OtimizacaoProvider } from '../../providers/otimizacao/otimizacao';
 })
 export class QuantidadesPage {
 
-  quantidades: QuantidadeModel[] = [];
+  quantidades: QuantidadeModel<AlimentoModel>[] = [];
 
   constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
@@ -31,7 +30,7 @@ export class QuantidadesPage {
     return this.alimentosProvider.retrieve(key).nome;
   }
 
-  removeQuantidade(quantidade: QuantidadeModel) {
+  removeQuantidade(quantidade: QuantidadeModel<AlimentoModel>) {
     for (let i = 0; i < this.quantidades.length; i++)
       if (this.quantidades[i] == quantidade)
         this.quantidades.splice(i, 1);
@@ -42,11 +41,11 @@ export class QuantidadesPage {
       isModal: true,
       filter: this.quantidades.map(
         (quantidade) => {
-          return quantidade.alimentoKey;
+          return quantidade.key;
         })
     });
     alimentosModal.onDidDismiss((key: Key<AlimentoModel>) => {
-      this.quantidades.push(new QuantidadeModel(key, 1000));
+      this.quantidades.push(new QuantidadeModel<AlimentoModel>(key, 1000));
     });
     alimentosModal.present();
   }

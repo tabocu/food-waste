@@ -3,10 +3,11 @@ import { NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { ReceitaModel } from '../../models/receita/receita';
 import { AlimentosPage } from '../alimentos/alimentos';
-import { QuantidadeModel, AlimentoModel } from '../../models/alimento/alimento';
+import { AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
 import { Key } from '../../utils/keygen';
+import { QuantidadeModel } from '../../models/quantidade/quantidade';
 
 @Component({
   selector: 'page-receita',
@@ -17,11 +18,11 @@ export class ReceitaPage {
   quantidadeTotal: number = 0;
 
   constructor(
-    public modalCtrl: ModalController,
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public receitasProvider: ReceitasProvider,
-    public alimentosProvider: AlimentosProvider) {}
+    private modalCtrl: ModalController,
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private receitasProvider: ReceitasProvider,
+    private alimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitaPage');
@@ -42,11 +43,11 @@ export class ReceitaPage {
       isModal: true,
       filter: this.receita.quantidades.map(
         (quantidade) => {
-          return quantidade.alimentoKey;
+          return quantidade.key;
         })
       });
     alimentosModal.onDidDismiss((key : Key<AlimentoModel>) => {
-      this.receita.quantidades.push(new QuantidadeModel(key, 100));
+      this.receita.quantidades.push(new QuantidadeModel<AlimentoModel>(key, 100));
       this.updateQuantidadeTotal();
     });
     alimentosModal.present();
@@ -58,7 +59,7 @@ export class ReceitaPage {
     this.navCtrl.pop();
   }
 
-  removeQuantidade(quantidade: QuantidadeModel) {
+  removeQuantidade(quantidade: QuantidadeModel<AlimentoModel>) {
     for (let i = 0; i < this.receita.quantidades.length; i++)
       if (this.receita.quantidades[i] == quantidade)
         this.receita.quantidades.splice(i, 1);
