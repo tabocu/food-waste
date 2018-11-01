@@ -5,6 +5,9 @@ import { PrecosProvider } from '../precos/precos';
 import { Key } from '../../utils/keygen';
 import { ReceitasProvider } from '../receitas/receitas';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
+import { ResultadoModel } from '../../models/resultado/resultado';
+import { ReceitaModel } from '../../models/receita/receita';
+import { ResultadosProvider } from '../resultados/resultados';
 
 @Injectable()
 export class OtimizacaoProvider {
@@ -23,10 +26,11 @@ export class OtimizacaoProvider {
   constructor(
     public http: HttpClient,
     private precosProvider: PrecosProvider,
-    private receitasProvider: ReceitasProvider) {
+    private receitasProvider: ReceitasProvider,
+    private resultadosProvider: ResultadosProvider) {
   }
 
-  getObjetiva() {
+  private getObjetiva() {
     let json = {};
     for (let preco of this.precosProvider.retrieveAll()) {
       json[String(preco.getKey().getId())] = preco.valor;
@@ -34,7 +38,7 @@ export class OtimizacaoProvider {
     return json;
   }
 
-  getReceitas(alimentoKey: Key<AlimentoModel>) {
+  private getReceitas(alimentoKey: Key<AlimentoModel>) {
     let json = {};
     for (let receita of this.receitasProvider.retrieveAll()) {
       for (let quantidade of receita.quantidades) {
@@ -46,7 +50,7 @@ export class OtimizacaoProvider {
     return json;
   }
 
-  getRestricoes(quantidades: QuantidadeModel<AlimentoModel>[]) {
+  private getRestricoes(quantidades: QuantidadeModel<AlimentoModel>[]) {
     let json = {};
     for (let quantidade of quantidades) {
       json[String(quantidade.key.getId())] = {
@@ -57,7 +61,7 @@ export class OtimizacaoProvider {
     return json;
   }
 
-  getBundle(quantidades: QuantidadeModel<AlimentoModel>[]) {
+  private getBundle(quantidades: QuantidadeModel<AlimentoModel>[]) {
     let json = {
       objetiva: this.getObjetiva(),
       restricoes: this.getRestricoes(quantidades),
@@ -65,9 +69,25 @@ export class OtimizacaoProvider {
     return json;
   }
 
+  private getResultado(json): ResultadoModel {
+    let resultado: ResultadoModel = new ResultadoModel();
+    resultado.quantidades = json.lucro;
+
+    let jsonKeys = Object.keys(json);
+    for (let key of jsonKeys) {
+      let quantidade: QuantidadeModel<ReceitaModel> = new QuantidadeModel<ReceitaModel>(
+        this.receitasProvider.retrieveKey(Number.parseInt(key)), json.quantidades[key]);
+      resultado.quantidades.push(quantidade);
+    }
+
+    return resultado;
+  }
+
   sendOpt(
     quantidades: QuantidadeModel<AlimentoModel>[],
-    resultado: () => void, erro: () => void) {
+    resultado: (key: Key<ResultadoModel>) => void,
+    erro: () => void) {
+
     try {
       let json = this.getBundle(quantidades);
       this.http.post(
@@ -76,7 +96,9 @@ export class OtimizacaoProvider {
         { headers: OtimizacaoProvider.headers }
       ).subscribe(data => {
           try {
-            resultado();
+            let res: ResultadoModel = this.getResultado(data);
+            this.resultadosProvider.create(res);
+            resultado(res.getKey());
           } catch {
             erro();
           }
