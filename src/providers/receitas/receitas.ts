@@ -37,4 +37,8 @@ export class ReceitasProvider {
   delete(key: Key<ReceitaModel>) {
     delete this.receitas[this.getIndex(key)];
   }
+
+  retrieveKey(id: number): Key<ReceitaModel> {
+    return this.keyGen.getKey(id);
+  }
 }
