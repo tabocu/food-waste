@@ -19,6 +19,9 @@ export
   clone(): ResultadoModel {
     let resultadoModelCopy = new ResultadoModel();
     resultadoModelCopy.key = this.key;
+    resultadoModelCopy.lucro = this.lucro;
+
+    this.quantidades.forEach((quantidade) => { resultadoModelCopy.quantidades.push(quantidade.clone()) });
 
     return resultadoModelCopy;
   }
