@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Editar Preço</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="accept()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary">Receita:</ion-label>
+      <ion-input placeholder="Nome da receita" value="{{getReceita(preco.receitaKey).nome}}"
+        readonly="true" (click)="fetchReceita()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Valor:</ion-label>""
+      <ion-input type="number" step="0.01" min="0" [(ngModel)]="preco.valor"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>

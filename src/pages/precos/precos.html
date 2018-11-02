@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Preços</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="newPreco()" *ngIf="!isModal">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let preco of precos" (click)="selectPreco(preco.getKey())">
+      <h2>{{getNomeOfReceita(preco.receitaKey)}}</h2>
+      <ion-note color="primary" item-end>{{preco.valor | currency: 'BRL'}}</ion-note>
+      <p>{{getAlimentosTextOfReceita(preco.receitaKey)}}</p>
+    </button>
+  </ion-list>
+</ion-content>
+<page-run *ngIf="!isModal"></page-run>

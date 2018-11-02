@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Receitas</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="newReceita()" *ngIf="!isModal">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let receita of receitas | indexed : filter"
+      (click)="selectReceita(receita.getKey())">
+      <h2>{{receita.nome}}</h2>
+      <p>{{getAlimentosTextOfReceita(receita.getKey())}}</p>
+    </button>
+  </ion-list>
+</ion-content>
+<page-run *ngIf="!isModal"></page-run>

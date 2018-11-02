@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Alimentos</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="newAlimento()" *ngIf="!isModal">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let alimento of alimentos | indexed : filter"
+      (click)="selectAlimento(alimento.getKey())">
+      <h2>{{alimento.nome}}</h2>
+      <p>{{alimento.tipo}}</p>
+    </button>
+  </ion-list>
+</ion-content>
+<page-run *ngIf="!isModal"></page-run>
