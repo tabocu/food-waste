@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { ModalController, AlertController, LoadingController } from 'ionic-angular';
+import { ModalController, AlertController, LoadingController, NavController } from 'ionic-angular';
 import { AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { Key } from '../../utils/keygen';
 import { AlimentosPage } from '../alimentos/alimentos';
 import { OtimizacaoProvider } from '../../providers/otimizacao/otimizacao';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
+import { ResultadosProvider } from '../../providers/resultados/resultados';
+import { ResultadoModel } from '../../models/resultado/resultado';
+import { ResultadoPage } from '../resultado/resultado';
 
 @Component({
   selector: 'page-quantidades',
@@ -16,6 +19,7 @@ export class QuantidadesPage {
   quantidades: QuantidadeModel<AlimentoModel>[] = [];
 
   constructor(
+    private navCtrl: NavController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
@@ -57,12 +61,13 @@ export class QuantidadesPage {
 
     loader.present().then(() => {
       this.otimizacaoProvider.sendOpt(this.quantidades,
-        () => {
-
-        }, () => {
+        (key: Key<ResultadoModel>) => { // Got a result
+          this.navCtrl.push(ResultadoPage, { key: key });
+        },
+        (code: number) => { // Got an error
           let alert = this.alertCtrl.create({
             title: 'Erro',
-            subTitle: 'Não foi possível otimizar.',
+            subTitle: 'Não foi possível otimizar.\n[Error code: ' + code + ']',
             buttons: ['Dismiss']
           });
           alert.present();
