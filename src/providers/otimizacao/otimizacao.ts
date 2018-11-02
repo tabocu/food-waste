@@ -71,9 +71,8 @@ export class OtimizacaoProvider {
 
   private getResultado(json): ResultadoModel {
     let resultado: ResultadoModel = new ResultadoModel();
-    resultado.quantidades = json.lucro;
-
-    let jsonKeys = Object.keys(json);
+    resultado.lucro = Number.parseFloat(json.lucro);
+    let jsonKeys = Object.keys(json.quantidades);
     for (let key of jsonKeys) {
       let quantidade: QuantidadeModel<ReceitaModel> = new QuantidadeModel<ReceitaModel>(
         this.receitasProvider.retrieveKey(Number.parseInt(key)), json.quantidades[key]);
@@ -86,7 +85,7 @@ export class OtimizacaoProvider {
   sendOpt(
     quantidades: QuantidadeModel<AlimentoModel>[],
     resultado: (key: Key<ResultadoModel>) => void,
-    erro: () => void) {
+    erro: (code: number) => void) {
 
     try {
       let json = this.getBundle(quantidades);
@@ -97,16 +96,16 @@ export class OtimizacaoProvider {
       ).subscribe(data => {
           try {
             let res: ResultadoModel = this.getResultado(data);
-            this.resultadosProvider.create(res);
-            resultado(res.getKey());
+            let key: Key<ResultadoModel> = this.resultadosProvider.create(res);
+            resultado(key);
           } catch {
-            erro();
+            erro(1);
           }
         }, error => {
-          erro();
+          erro(2);
         });
     } catch {
-      erro();      
+      erro(3);      
     }
   }
 }
