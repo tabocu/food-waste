@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
+
+import { Key } from '../../utils/keygen';
 
 import { ReceitaModel } from '../../models/receita/receita';
 import { ResultadoModel } from '../../models/resultado/resultado';
+
 import { ResultadosProvider } from '../../providers/resultados/resultados';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
-import { Key } from '../../utils/keygen';
+import { AlimentosProvider } from '../../providers/alimentos/alimentos';
+import { QuantidadeModel } from '../../models/quantidade/quantidade';
 
 @Component({
   selector: 'page-resultado',
@@ -16,9 +20,9 @@ export class ResultadoPage {
   resultado: ResultadoModel = new ResultadoModel();  
 
   constructor(
-    private navCtrl: NavController,
     private navParams: NavParams,
     private resultadosProvider: ResultadosProvider,
+    private alimentosProvider: AlimentosProvider,
     private receitasProvider: ReceitasProvider) {}
 
   ionViewDidLoad() {
@@ -30,7 +34,24 @@ export class ResultadoPage {
     if (key != null) this.resultado = this.resultadosProvider.retrieve(key);
   }
 
-  getReceita(key: Key<ReceitaModel>): ReceitaModel {
-    return this.receitasProvider.retrieve(key);
+  getNomeOfReceita(key: Key<ReceitaModel>): string {
+    return this.receitasProvider.retrieve(key).nome;
+  }
+
+  getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel<ReceitaModel>[] {
+    return this.receitasProvider.retrieve(key).quantidades;
+  }
+
+  getAlimentosTextOfReceita(key: Key<ReceitaModel>): string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
+      (quantidade: QuantidadeModel<ReceitaModel>) => {
+        return this.alimentosProvider.retrieve(quantidade.key).nome;
+      }
+    )
+
+    if (alimentos.length > 0)
+      return alimentos.join(', ');
+    else
+      return "Nenhum alimento cadastrado";
   }
 }

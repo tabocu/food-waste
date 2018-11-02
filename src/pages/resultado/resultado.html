@@ -6,10 +6,16 @@
 
 <ion-content>
   <ion-list>
-    <!-- <button ion-item *ngFor="let quantidade of resultado.quantidades">
-      <h2>{{getNomeOfReceita(quantidade.key)}}</h2> -->
-      <!-- <ion-note color="primary" item-end>{{preco.valor}}</ion-note>
-      <p>{{getAlimentosTextOfReceita(preco.receitaKey)}}</p> -->
-    </button>
+    <ion-list-header class="list-header">DETALHES</ion-list-header>
+    <ion-item>
+      <ion-label color="primary">Lucro:</ion-label>
+      <ion-input readonly="true" value="{{resultado.lucro | currency: 'BRL'}}"></ion-input>
+    </ion-item>
+    <ion-list-header class="list-header">QUANTIDADES</ion-list-header>
+    <ion-item *ngFor="let quantidade of resultado.quantidades">
+      <h2>{{getNomeOfReceita(quantidade.key)}}</h2>
+      <ion-note color="primary" item-end>{{quantidade.quantidade}}</ion-note>
+      <p>{{getAlimentosTextOfReceita(quantidade.key)}}</p>
+    </ion-item>
   </ion-list>
 </ion-content>
