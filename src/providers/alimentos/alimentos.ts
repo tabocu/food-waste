@@ -30,6 +30,10 @@ export class AlimentosProvider {
     return this.alimentos;
   }
 
+  retrieveKey(id: number): Key<AlimentoModel> {
+    return this.keyGen.getKey(id);
+  }
+
   update(alimento: AlimentoModel) {
     this.alimentos[this.getIndex(alimento.getKey())] = alimento;
   }

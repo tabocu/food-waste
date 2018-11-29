@@ -3,6 +3,7 @@ import { ClonableModel } from "../utils/clonable";
 
 import { ReceitaModel } from "../receita/receita";
 import { QuantidadeModel } from "../quantidade/quantidade";
+import { AlimentoModel } from "../alimento/alimento";
 
 export
   class ResultadoModel
@@ -10,6 +11,7 @@ export
   implements ClonableModel<ResultadoModel> {
 
   quantidades: QuantidadeModel<ReceitaModel>[] = [];
+  sobras: QuantidadeModel<AlimentoModel>[] = [];
   lucro: number;
 
   constructor() {
@@ -21,7 +23,8 @@ export
     resultadoModelCopy.key = this.key;
     resultadoModelCopy.lucro = this.lucro;
 
-    this.quantidades.forEach((quantidade) => { resultadoModelCopy.quantidades.push(quantidade.clone()) });
+    this.quantidades.forEach((quantidade: QuantidadeModel<ReceitaModel>) => { resultadoModelCopy.quantidades.push(quantidade.clone()) });
+    this.sobras.forEach((sobra: QuantidadeModel<AlimentoModel>) => { resultadoModelCopy.sobras.push(sobra.clone()) });
 
     return resultadoModelCopy;
   }

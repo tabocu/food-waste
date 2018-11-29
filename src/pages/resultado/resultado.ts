@@ -10,6 +10,7 @@ import { ResultadosProvider } from '../../providers/resultados/resultados';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
+import { AlimentoModel } from '../../models/alimento/alimento';
 
 @Component({
   selector: 'page-resultado',
@@ -36,6 +37,10 @@ export class ResultadoPage {
 
   getNomeOfReceita(key: Key<ReceitaModel>): string {
     return this.receitasProvider.retrieve(key).nome;
+  }
+
+  getNomeOfAlimento(key: Key<AlimentoModel>): string {
+    return this.alimentosProvider.retrieve(key).nome;
   }
 
   getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel<ReceitaModel>[] {

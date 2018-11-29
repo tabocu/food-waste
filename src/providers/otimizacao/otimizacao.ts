@@ -8,6 +8,7 @@ import { QuantidadeModel } from '../../models/quantidade/quantidade';
 import { ResultadoModel } from '../../models/resultado/resultado';
 import { ReceitaModel } from '../../models/receita/receita';
 import { ResultadosProvider } from '../resultados/resultados';
+import { AlimentosProvider } from '../alimentos/alimentos';
 
 @Injectable()
 export class OtimizacaoProvider {
@@ -27,6 +28,7 @@ export class OtimizacaoProvider {
     public http: HttpClient,
     private precosProvider: PrecosProvider,
     private receitasProvider: ReceitasProvider,
+    private alimentosProvider: AlimentosProvider,
     private resultadosProvider: ResultadosProvider) {
   }
 
@@ -71,12 +73,21 @@ export class OtimizacaoProvider {
 
   private getResultado(json): ResultadoModel {
     let resultado: ResultadoModel = new ResultadoModel();
+
     resultado.lucro = Number.parseFloat(json.lucro);
-    let jsonKeys = Object.keys(json.quantidades);
-    for (let key of jsonKeys) {
+
+    let quantidadesKeys = Object.keys(json.quantidades);
+    for (let key of quantidadesKeys) {
       let quantidade: QuantidadeModel<ReceitaModel> = new QuantidadeModel<ReceitaModel>(
         this.receitasProvider.retrieveKey(Number.parseInt(key)), json.quantidades[key]);
       resultado.quantidades.push(quantidade);
+    }
+
+    let sobrasKeys = Object.keys(json.sobras);
+    for (let key of sobrasKeys) {
+      let sobra: QuantidadeModel<AlimentoModel> = new QuantidadeModel<AlimentoModel>(
+        this.alimentosProvider.retrieveKey(Number.parseInt(key)), json.sobras[key]);
+      resultado.sobras.push(sobra);
     }
 
     return resultado;

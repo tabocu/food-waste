@@ -11,11 +11,16 @@
       <ion-label color="primary">Lucro:</ion-label>
       <ion-input readonly="true" value="{{resultado.lucro | currency: 'BRL'}}"></ion-input>
     </ion-item>
-    <ion-list-header class="list-header">QUANTIDADES</ion-list-header>
+    <ion-list-header class="list-header">QUANTIDADE DE RECEITAS</ion-list-header>
     <ion-item *ngFor="let quantidade of resultado.quantidades">
       <h2>{{getNomeOfReceita(quantidade.key)}}</h2>
       <ion-note color="primary" item-end>{{quantidade.quantidade}}</ion-note>
       <p>{{getAlimentosTextOfReceita(quantidade.key)}}</p>
+    </ion-item>
+    <ion-list-header class="list-header">RESTOS NÃO APROVEITADOS</ion-list-header>
+    <ion-item *ngFor="let sobra of resultado.sobras">
+      <h2>{{getNomeOfAlimento(sobra.key)}}</h2>
+      <ion-note color="primary" item-end>{{sobra.quantidade}}g</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>
