@@ -1,39 +1,38 @@
 import { Injectable } from '@angular/core';
 import { PrecoModel } from '../../models/receita/receita';
-import { KeyGen, Key } from '../../utils/keygen';
 
 @Injectable()
 export class PrecosProvider {
 
-  private keyGen: KeyGen<PrecoModel> = KeyGen.createKeyGen<PrecoModel>();
-  private precos: PrecoModel[] = [];
+  private mPrecos: PrecoModel[] = [];
+  private mCounter: number = 0;
 
   constructor() {}
 
-  private getIndex(key: Key<PrecoModel>): number {
-    return this.precos.findIndex((preco) => { return preco.getKey() == key; });
+  private getIndex(id: number): number {
+    return this.mPrecos.findIndex((preco) => { return preco.getId() == id; });
   }
 
-  create(preco: PrecoModel): Key<PrecoModel> {
-    let key = this.keyGen.getNextKey();
-    preco.setKey(key);
-    this.precos.push(preco);
-    return key;
+  create(preco: PrecoModel): number {
+    preco.setId(this.mCounter);
+    this.mPrecos.push(preco);
+    ++this.mCounter;
+    return preco.getId();
   }
 
-  retrieve(key: Key<PrecoModel>): PrecoModel {
-    return this.precos[this.getIndex(key)].clone();
+  retrieve(id: number): PrecoModel {
+    return this.mPrecos[this.getIndex(id)].clone();
   }
 
   retrieveAll(): PrecoModel[] {
-    return this.precos;
+    return this.mPrecos;
   }
 
   update(preco: PrecoModel) {
-    this.precos[this.getIndex(preco.getKey())] = preco;
+    this.mPrecos[this.getIndex(preco.getId())] = preco;
   }
 
-  delete(key: Key<PrecoModel>) {
-    delete this.precos[this.getIndex(key)];
+  delete(id: number) {
+    delete this.mPrecos[this.getIndex(id)];
   }
 }

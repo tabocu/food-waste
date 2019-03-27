@@ -8,7 +8,7 @@ import { QuantidadesPage } from '../quantidades/quantidades';
 })
 export class RunPage {
 
-  constructor(public appCtrl: App) {
+  constructor(public mAppCtrl: App) {
   }
 
   ionViewDidLoad() {
@@ -16,6 +16,6 @@ export class RunPage {
   }
 
   runOptimizationWizard() {
-    this.appCtrl.getRootNav().push(QuantidadesPage)
+    this.mAppCtrl.getRootNav().push(QuantidadesPage)
   }
 }

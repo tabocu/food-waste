@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { PrecoModel, ReceitaModel } from '../../models/receita/receita';
-import { Key } from '../../utils/keygen';
 import { PrecosProvider } from '../../providers/precos/precos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
 import { ReceitasPage } from '../receitas/receitas';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-preco',
@@ -12,45 +12,45 @@ import { ReceitasPage } from '../receitas/receitas';
 })
 export class PrecoPage {
 
-  preco: PrecoModel = new PrecoModel();
+  mPreco: PrecoModel = new PrecoModel();
 
   constructor(
-    public modalCtrl: ModalController,
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public precosProvider: PrecosProvider,
-    public receitasProvider: ReceitasProvider) {}
+    public mModalCtrl: ModalController,
+    public mNavCtrl: NavController,
+    public mNavParams: NavParams,
+    public mPrecosProvider: PrecosProvider,
+    public mReceitasProvider: ReceitasProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrecoPage');
   }
 
   ionViewDidEnter() {
-    let key: Key<PrecoModel> = this.navParams.get('key');
-    if (key != null) this.preco = this.precosProvider.retrieve(key);
+    let id: number = this.mNavParams.get('ID');
+    if (id != IndexedModel.INVALID_ID) this.mPreco = this.mPrecosProvider.retrieve(id);
   }
 
-  getReceita(key: Key<ReceitaModel>): ReceitaModel {
-    return key.isValid() 
-      ? this.receitasProvider.retrieve(key)
+  getReceita(id: number): ReceitaModel {
+    return id != IndexedModel.INVALID_ID
+      ? this.mReceitasProvider.retrieve(id)
       : new ReceitaModel();
   }
 
   fetchReceita() {
-    let receitasModal = this.modalCtrl.create(ReceitasPage, {
-      isModal: true,
+    let receitasModal = this.mModalCtrl.create(ReceitasPage, {
+      IS_MODAL: true,
     });
 
-    receitasModal.onDidDismiss((key: Key<ReceitaModel>) => {
-      this.preco.receitaKey = key;
+    receitasModal.onDidDismiss((id: number) => {
+      this.mPreco.mReceitaId = id;
     });
     receitasModal.present();
   }
 
   accept() {
-    if (this.preco.getKey() == null) this.precosProvider.create(this.preco);
-    else this.precosProvider.update(this.preco);
-    this.navCtrl.pop();
-  }
+    if (!this.mPreco.isValid()) this.mPrecosProvider.create(this.mPreco);
+    else this.mPrecosProvider.update(this.mPreco);
 
+    this.mNavCtrl.pop();
+  }
 }

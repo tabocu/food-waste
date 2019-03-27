@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>Alimentos</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="newAlimento()" *ngIf="!isModal">
+      <button ion-button (click)="newAlimento()" *ngIf="!mIsModal">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -11,11 +11,11 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let alimento of alimentos | indexed : filter"
-      (click)="selectAlimento(alimento.getKey())">
-      <h2>{{alimento.nome}}</h2>
-      <p>{{alimento.tipo}}</p>
+    <button ion-item *ngFor="let alimento of mAlimentos | indexed : mFilter"
+      (click)="selectAlimento(alimento.getId())">
+      <h2>{{alimento.mNome}}</h2>
+      <p>{{alimento.mTipo}}</p>
     </button>
   </ion-list>
 </ion-content>
-<page-run *ngIf="!isModal"></page-run>
+<page-run *ngIf="!mIsModal"></page-run>

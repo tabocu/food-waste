@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { PrecosProvider } from '../../providers/precos/precos';
-import { PrecoModel, ReceitaModel } from '../../models/receita/receita';
+import { PrecoModel } from '../../models/receita/receita';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
-import { Key } from '../../utils/keygen';
 import { PrecoPage } from '../preco/preco';
 import { AlimentoModel } from '../../models/alimento/alimento';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-precos',
@@ -15,52 +15,52 @@ import { AlimentoModel } from '../../models/alimento/alimento';
 })
 export class PrecosPage {
 
-  isModal: boolean = false;
-  filter: Key<PrecoModel>[] = [];
+  mIsModal: boolean = false;
+  mFilter: number[] = [];
 
-  precos: PrecoModel[] = [];
+  mPrecos: PrecoModel[] = [];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public precosProvider: PrecosProvider,
-              public receitasProvider: ReceitasProvider,
-              public alimentosProvider: AlimentosProvider) {}
+  constructor(public mNavCtrl: NavController,
+              public mNavParams: NavParams,
+              public mViewCtrl: ViewController,
+              public mPrecosProvider: PrecosProvider,
+              public mReceitasProvider: ReceitasProvider,
+              public mAlimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrecoPage');
   }
 
   ionViewDidEnter() {
-    this.isModal = this.navParams.get('isModal');
-    this.filter = this.navParams.get('filter');
-    this.precos = this.precosProvider.retrieveAll();
+    this.mIsModal = this.mNavParams.get('IS_MODAL');
+    this.mFilter = this.mNavParams.get('FILTER');
+    this.mPrecos = this.mPrecosProvider.retrieveAll();
   }
 
   newPreco() {
-    this.navCtrl.push(PrecoPage);
+    this.mNavCtrl.push(PrecoPage, { ID: IndexedModel.INVALID_ID });
   }
 
-  selectPreco(key: Key<PrecoModel>) {
-    if (this.isModal) {
-      this.viewCtrl.dismiss(key);
+  selectPreco(id: number) {
+    if (this.mIsModal) {
+      this.mViewCtrl.dismiss(id);
     } else {
-      this.navCtrl.push(PrecoPage, { key: key });
+      this.mNavCtrl.push(PrecoPage, { ID: id });
     }
   }
 
-  getNomeOfReceita(key: Key<ReceitaModel>) : string {
-    return this.receitasProvider.retrieve(key).nome;
+  getNomeOfReceita(id: number) : string {
+    return this.mReceitasProvider.retrieve(id).mNome;
   }
 
-  getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel<AlimentoModel>[] {
-    return this.receitasProvider.retrieve(key).quantidades;
+  getQuantidadesOfReceita(id: number): QuantidadeModel<AlimentoModel>[] {
+    return this.mReceitasProvider.retrieve(id).mQuantidades;
   }
 
-  getAlimentosTextOfReceita(key: Key<ReceitaModel>): string {
-    let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
+  getAlimentosTextOfReceita(id: number): string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(id).map(
       (quantidade: QuantidadeModel<AlimentoModel>) => {
-        return this.alimentosProvider.retrieve(quantidade.key).nome;
+        return this.mAlimentosProvider.retrieve(quantidade.mId).mNome;
       }
     )
 

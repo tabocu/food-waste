@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
-import { Key } from '../../utils/keygen';
-
 import { ReceitaModel } from '../../models/receita/receita';
 import { ResultadoModel } from '../../models/resultado/resultado';
 
@@ -10,7 +8,7 @@ import { ResultadosProvider } from '../../providers/resultados/resultados';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
-import { AlimentoModel } from '../../models/alimento/alimento';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-resultado',
@@ -18,39 +16,39 @@ import { AlimentoModel } from '../../models/alimento/alimento';
 })
 export class ResultadoPage {
 
-  resultado: ResultadoModel = new ResultadoModel();  
+  mResultado: ResultadoModel = new ResultadoModel();  
 
   constructor(
-    private navParams: NavParams,
-    private resultadosProvider: ResultadosProvider,
-    private alimentosProvider: AlimentosProvider,
-    private receitasProvider: ReceitasProvider) {}
+    private mNavParams: NavParams,
+    private mResultadosProvider: ResultadosProvider,
+    private mAlimentosProvider: AlimentosProvider,
+    private mReceitasProvider: ReceitasProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ResultadoPage');
   }
 
   ionViewDidEnter() {
-    let key: Key<ResultadoModel> = this.navParams.get('key');
-    if (key != null) this.resultado = this.resultadosProvider.retrieve(key);
+    let id: number = this.mNavParams.get('ID');
+    if (id != IndexedModel.INVALID_ID) this.mResultado = this.mResultadosProvider.retrieve(id);
   }
 
-  getNomeOfReceita(key: Key<ReceitaModel>): string {
-    return this.receitasProvider.retrieve(key).nome;
+  getNomeOfReceita(id: number): string {
+    return this.mReceitasProvider.retrieve(id).mNome;
   }
 
-  getNomeOfAlimento(key: Key<AlimentoModel>): string {
-    return this.alimentosProvider.retrieve(key).nome;
+  getNomeOfAlimento(id: number): string {
+    return this.mAlimentosProvider.retrieve(id).mNome;
   }
 
-  getQuantidadesOfReceita(key: Key<ReceitaModel>): QuantidadeModel<ReceitaModel>[] {
-    return this.receitasProvider.retrieve(key).quantidades;
+  getQuantidadesOfReceita(id: number): QuantidadeModel<ReceitaModel>[] {
+    return this.mReceitasProvider.retrieve(id).mQuantidades;
   }
 
-  getAlimentosTextOfReceita(key: Key<ReceitaModel>): string {
-    let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
+  getAlimentosTextOfReceita(id: number): string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(id).map(
       (quantidade: QuantidadeModel<ReceitaModel>) => {
-        return this.alimentosProvider.retrieve(quantidade.key).nome;
+        return this.mAlimentosProvider.retrieve(quantidade.mId).mNome;
       }
     )
 

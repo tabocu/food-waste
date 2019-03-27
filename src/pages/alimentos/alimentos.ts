@@ -4,44 +4,43 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlimentoPage } from '../alimento/alimento'
 import { AlimentoModel } from '../../models/alimento/alimento'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos'
-import { Key } from '../../utils/keygen';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-alimentos',
   templateUrl: 'alimentos.html',
 })
 export class AlimentosPage {
+  mIsModal: boolean = false;
+  mFilter: number[] = [];
 
-  isModal: boolean = false;
-  filter: Key<AlimentoModel>[] = [];
-
-  alimentos: AlimentoModel[] = [];
+  mAlimentos: AlimentoModel[] = [];
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public viewCtrl: ViewController,
-    public alimentosProvider: AlimentosProvider) {}
+    public mNavCtrl: NavController,
+    public mNavParams: NavParams,
+    public mViewCtrl: ViewController,
+    public mAlimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AlimentosPage');
   }
 
   ionViewDidEnter() {
-    this.isModal = this.navParams.get('isModal');
-    this.filter = this.navParams.get('filter');
-    this.alimentos = this.alimentosProvider.retrieveAll();
+    this.mIsModal = this.mNavParams.get('IS_MODAL');
+    this.mFilter = this.mNavParams.get('FILTER');
+    this.mAlimentos = this.mAlimentosProvider.retrieveAll();
   }
 
   newAlimento() {
-    this.navCtrl.push(AlimentoPage);
+    this.mNavCtrl.push(AlimentoPage, { ID: IndexedModel.INVALID_ID });
   }
 
-  selectAlimento(key: Key<AlimentoModel>) {
-    if (this.isModal) {
-      this.viewCtrl.dismiss(key);
+  selectAlimento(id: number) {
+    if (this.mIsModal) {
+      this.mViewCtrl.dismiss(id);
     } else {
-      this.navCtrl.push(AlimentoPage, { key: key });
+      this.mNavCtrl.push(AlimentoPage, { ID: id });
     }
   }
 }

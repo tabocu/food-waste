@@ -3,20 +3,20 @@ import { ClonableModel } from "../utils/clonable";
 
 export
   class AlimentoModel 
-  extends IndexedModel<AlimentoModel>
+  extends IndexedModel
   implements ClonableModel<AlimentoModel> {
 
   constructor(
-    public nome?: string,
-    public tipo?: string) {
+    public mNome?: string,
+    public mTipo?: string) {
       super();
   }
 
   clone() : AlimentoModel {
     let alimentoModelCopy = new AlimentoModel();
-    alimentoModelCopy.key = this.key;
-    alimentoModelCopy.nome = this.nome;
-    alimentoModelCopy.tipo = this.tipo;
+    alimentoModelCopy.mId = this.mId;
+    alimentoModelCopy.mNome = this.mNome;
+    alimentoModelCopy.mTipo = this.mTipo;
 
     return alimentoModelCopy;
   }

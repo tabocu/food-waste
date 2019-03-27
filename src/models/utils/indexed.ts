@@ -1,16 +1,20 @@
-import { Key } from "../../utils/keygen";
+export class IndexedModel {
 
-export class IndexedModel<T> {
+  public static readonly INVALID_ID: number = -1;
+  protected mId: number = IndexedModel.INVALID_ID;
 
-    protected key: Key<T> = null;
+  constructor() {};
 
-    constructor() {};
+  setId(id: number) {
+    //assert(id >= 0 || id == IndexedModel.INVALID_ID, "Invalid ID");
+    this.mId = id;
+  }
 
-    setKey(key: Key<T>) {
-        this.key = key;
-    }
+  getId(): number {
+    return this.mId;
+  }
 
-    getKey(): Key<T> {
-        return this.key;
-    }
+  isValid(): boolean {
+    return this.mId != IndexedModel.INVALID_ID;
+  }
 }

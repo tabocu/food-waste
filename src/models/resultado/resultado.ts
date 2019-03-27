@@ -7,24 +7,22 @@ import { AlimentoModel } from "../alimento/alimento";
 
 export
   class ResultadoModel
-  extends IndexedModel<ResultadoModel>
+  extends IndexedModel
   implements ClonableModel<ResultadoModel> {
 
-  quantidades: QuantidadeModel<ReceitaModel>[] = [];
-  sobras: QuantidadeModel<AlimentoModel>[] = [];
-  lucro: number;
+  mQuantidades: QuantidadeModel<ReceitaModel>[] = [];
+  mSobras: QuantidadeModel<AlimentoModel>[] = [];
+  mLucro: number;
 
-  constructor() {
-    super();
-  }
+  constructor() { super(); }
 
   clone(): ResultadoModel {
     let resultadoModelCopy = new ResultadoModel();
-    resultadoModelCopy.key = this.key;
-    resultadoModelCopy.lucro = this.lucro;
+    resultadoModelCopy.mId = this.mId;
+    resultadoModelCopy.mLucro = this.mLucro;
 
-    this.quantidades.forEach((quantidade: QuantidadeModel<ReceitaModel>) => { resultadoModelCopy.quantidades.push(quantidade.clone()) });
-    this.sobras.forEach((sobra: QuantidadeModel<AlimentoModel>) => { resultadoModelCopy.sobras.push(sobra.clone()) });
+    this.mQuantidades.forEach((quantidade: QuantidadeModel<ReceitaModel>) => { resultadoModelCopy.mQuantidades.push(quantidade.clone()) });
+    this.mSobras.forEach((sobra: QuantidadeModel<AlimentoModel>) => { resultadoModelCopy.mSobras.push(sobra.clone()) });
 
     return resultadoModelCopy;
   }

@@ -1,40 +1,39 @@
 import { Injectable } from '@angular/core';
 
-import { KeyGen, Key } from '../../utils/keygen';
 import { ResultadoModel } from '../../models/resultado/resultado';
 
 @Injectable()
 export class ResultadosProvider {
 
-  private keyGen: KeyGen<ResultadoModel> = KeyGen.createKeyGen<ResultadoModel>();
-  private resultados: ResultadoModel[] = [];
+  private mResultados: ResultadoModel[] = [];
+  private mCounter = 0;
 
   constructor() {}
 
-  private getIndex(key: Key<ResultadoModel>) : number {
-    return this.resultados.findIndex((resultado) => { return resultado.getKey() == key; });
+  private getIndex(id: number) : number {
+    return this.mResultados.findIndex((resultado) => { return resultado.getId() == id; });
   }
 
-  create(resultado: ResultadoModel): Key<ResultadoModel> {
-    let key = this.keyGen.getNextKey();
-    resultado.setKey(key);
-    this.resultados.push(resultado);
-    return key;
+  create(resultado: ResultadoModel): number {
+    resultado.setId(this.mCounter);
+    this.mResultados.push(resultado);
+    ++this.mCounter;
+    return resultado.getId();
   }
 
-  retrieve(key: Key<ResultadoModel>) : ResultadoModel {
-    return this.resultados[this.getIndex(key)].clone();
+  retrieve(id: number) : ResultadoModel {
+    return this.mResultados[this.getIndex(id)].clone();
   }
 
   retrieveAll(): ResultadoModel[] {
-    return this.resultados;
+    return this.mResultados;
   }
 
   update(resultado: ResultadoModel) {
-    this.resultados[this.getIndex(resultado.getKey())] = resultado;
+    this.mResultados[this.getIndex(resultado.getId())] = resultado;
   }
 
-  delete(key: Key<ResultadoModel>) {
-    delete this.resultados[this.getIndex(key)];
+  delete(id: number) {
+    delete this.mResultados[this.getIndex(id)];
   }
 }

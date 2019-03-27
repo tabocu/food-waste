@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { ModalController, AlertController, LoadingController, NavController } from 'ionic-angular';
 import { AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
-import { Key } from '../../utils/keygen';
 import { AlimentosPage } from '../alimentos/alimentos';
 import { OtimizacaoProvider } from '../../providers/otimizacao/otimizacao';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
-import { ResultadosProvider } from '../../providers/resultados/resultados';
-import { ResultadoModel } from '../../models/resultado/resultado';
 import { ResultadoPage } from '../resultado/resultado';
 
 @Component({
@@ -16,56 +13,59 @@ import { ResultadoPage } from '../resultado/resultado';
 })
 export class QuantidadesPage {
 
-  quantidades: QuantidadeModel<AlimentoModel>[] = [];
+  mQuantidades: QuantidadeModel<AlimentoModel>[] = [];
 
   constructor(
-    private navCtrl: NavController,
-    private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController,
-    private otimizacaoProvider: OtimizacaoProvider,
-    private alimentosProvider: AlimentosProvider) {}
+    private mNavCtrl: NavController,
+    private mModalCtrl: ModalController,
+    private mAlertCtrl: AlertController,
+    private mLoadingCtrl: LoadingController,
+    private mOtimizacaoProvider: OtimizacaoProvider,
+    private mAlimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuantidadesPage');
   }
 
-  getNomeOfAlimento(key: Key<AlimentoModel>): string {
-    return this.alimentosProvider.retrieve(key).nome;
+  getNomeOfAlimento(id: number): string {
+    return this.mAlimentosProvider.retrieve(id).mNome;
   }
 
   removeQuantidade(quantidade: QuantidadeModel<AlimentoModel>) {
-    for (let i = 0; i < this.quantidades.length; i++)
-      if (this.quantidades[i] == quantidade)
-        this.quantidades.splice(i, 1);
+    for (let i = 0; i < this.mQuantidades.length; i++) {
+      if (this.mQuantidades[i] == quantidade) {
+        this.mQuantidades.splice(i, 1);
+        return;
+      }
+    }
   }
 
   fetchAlimento() {
-    let alimentosModal = this.modalCtrl.create(AlimentosPage, {
-      isModal: true,
-      filter: this.quantidades.map(
+    let alimentosModal = this.mModalCtrl.create(AlimentosPage, {
+      IS_MODAL: true,
+      FILTER: this.mQuantidades.map(
         (quantidade) => {
-          return quantidade.key;
+          return quantidade.mId;
         })
     });
-    alimentosModal.onDidDismiss((key: Key<AlimentoModel>) => {
-      this.quantidades.push(new QuantidadeModel<AlimentoModel>(key, 1000));
+    alimentosModal.onDidDismiss((id: number) => {
+      this.mQuantidades.push(new QuantidadeModel<AlimentoModel>(id, 1000));
     });
     alimentosModal.present();
   }
 
   otimizar() {
-    let loader = this.loadingCtrl.create({
+    let loader = this.mLoadingCtrl.create({
       content: 'Tentando otimizar...',
     });
 
     loader.present().then(() => {
-      this.otimizacaoProvider.sendOpt(this.quantidades,
-        (key: Key<ResultadoModel>) => { // Got a result
-          this.navCtrl.push(ResultadoPage, { key: key });
+      this.mOtimizacaoProvider.sendOpt(this.mQuantidades,
+        (id: number) => { // Got a result
+          this.mNavCtrl.push(ResultadoPage, { ID: id });
         },
         (code: number) => { // Got an error
-          let alert = this.alertCtrl.create({
+          let alert = this.mAlertCtrl.create({
             title: 'Erro',
             subTitle: 'Não foi possível otimizar.\n[Error code: ' + code + ']',
             buttons: ['Dismiss']

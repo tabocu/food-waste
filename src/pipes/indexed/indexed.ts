@@ -8,7 +8,7 @@ export class IndexedPipe implements PipeTransform {
 
   transform(indexedList: any[], index: number[]) : any[] {
     return indexedList.filter((e, i, arr) => {
-      return !index || index.indexOf(e.getKey()) == -1;
+      return !index || index.indexOf(e.getId()) == -1;
     });
   }
 }

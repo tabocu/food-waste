@@ -6,67 +6,70 @@ import { AlimentosPage } from '../alimentos/alimentos';
 import { AlimentoModel } from '../../models/alimento/alimento';
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 import { ReceitasProvider } from '../../providers/receitas/receitas';
-import { Key } from '../../utils/keygen';
 import { QuantidadeModel } from '../../models/quantidade/quantidade';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-receita',
   templateUrl: 'receita.html',
 })
 export class ReceitaPage {
-  receita: ReceitaModel = new ReceitaModel();
-  quantidadeTotal: number = 0;
+  mReceita: ReceitaModel = new ReceitaModel();
+  mQuantidadeTotal: number = 0;
 
   constructor(
-    private modalCtrl: ModalController,
-    private navCtrl: NavController,
-    private navParams: NavParams,
-    private receitasProvider: ReceitasProvider,
-    private alimentosProvider: AlimentosProvider) {}
+    private mModalCtrl: ModalController,
+    private mNavCtrl: NavController,
+    private mNavParams: NavParams,
+    private mReceitasProvider: ReceitasProvider,
+    private mAlimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitaPage');
   }
 
   ionViewDidEnter() {
-    let key: Key <ReceitaModel> = this.navParams.get('key');
-    if (key != null) this.receita = this.receitasProvider.retrieve(key);
+    let id: number = this.mNavParams.get('ID');
+    if (id != IndexedModel.INVALID_ID) this.mReceita = this.mReceitasProvider.retrieve(id);
     this.updateQuantidadeTotal();
   }
 
-  getAlimento(key: Key<AlimentoModel>) : AlimentoModel {
-      return this.alimentosProvider.retrieve(key);
+  getAlimento(id: number) : AlimentoModel {
+      return this.mAlimentosProvider.retrieve(id);
   }
 
   fetchAlimento() {
-    let alimentosModal = this.modalCtrl.create(AlimentosPage, { 
-      isModal: true,
-      filter: this.receita.quantidades.map(
+    let alimentosModal = this.mModalCtrl.create(AlimentosPage, { 
+      IS_MODAL: true,
+      FILTER: this.mReceita.mQuantidades.map(
         (quantidade) => {
-          return quantidade.key;
+          return quantidade.mId;
         })
       });
-    alimentosModal.onDidDismiss((key : Key<AlimentoModel>) => {
-      this.receita.quantidades.push(new QuantidadeModel<AlimentoModel>(key, 100));
+    alimentosModal.onDidDismiss((id: number) => {
+      this.mReceita.mQuantidades.push(new QuantidadeModel<AlimentoModel>(id, 100));
       this.updateQuantidadeTotal();
     });
     alimentosModal.present();
   }
 
   accept() {
-    if (this.receita.getKey() == null) this.receitasProvider.create(this.receita);
-    else this.receitasProvider.update(this.receita);
-    this.navCtrl.pop();
+    if (!this.mReceita.isValid()) this.mReceitasProvider.create(this.mReceita);
+    else this.mReceitasProvider.update(this.mReceita);
+    this.mNavCtrl.pop();
   }
 
   removeQuantidade(quantidade: QuantidadeModel<AlimentoModel>) {
-    for (let i = 0; i < this.receita.quantidades.length; i++)
-      if (this.receita.quantidades[i] == quantidade)
-        this.receita.quantidades.splice(i, 1);
-    this.updateQuantidadeTotal();
+    for (let i = 0; i < this.mReceita.mQuantidades.length; i++) {
+      if (this.mReceita.mQuantidades[i] == quantidade) {
+        this.mReceita.mQuantidades.splice(i, 1);
+        this.updateQuantidadeTotal();
+        return;
+      }
+    }
   }
 
   updateQuantidadeTotal() {
-    this.quantidadeTotal = this.receita.getQuantidadeTotal();
+    this.mQuantidadeTotal = this.mReceita.getQuantidadeTotal();
   }
 }

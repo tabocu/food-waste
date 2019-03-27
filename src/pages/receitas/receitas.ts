@@ -8,8 +8,8 @@ import { ReceitasProvider } from '../../providers/receitas/receitas'
 import { AlimentosProvider } from '../../providers/alimentos/alimentos';
 
 import { ReceitaPage } from '../receita/receita';
-import { Key } from '../../utils/keygen';
 import { AlimentoModel } from '../../models/alimento/alimento';
+import { IndexedModel } from '../../models/utils/indexed';
 
 @Component({
   selector: 'page-receitas',
@@ -17,36 +17,36 @@ import { AlimentoModel } from '../../models/alimento/alimento';
 })
 export class ReceitasPage {
 
-  isModal: boolean = false;
-  filter: Key<ReceitaModel>[] = [];
+  mIsModal: boolean = false;
+  mFilter: number[] = [];
 
-  receitas: ReceitaModel[] = [];
+  mReceitas: ReceitaModel[] = [];
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public viewCtrl: ViewController,
-    public receitasProvider: ReceitasProvider,
-    public alimentosProvider: AlimentosProvider) {}
+    public mNavCtrl: NavController,
+    public mNavParams: NavParams,
+    public mViewCtrl: ViewController,
+    public mReceitasProvider: ReceitasProvider,
+    public mAlimentosProvider: AlimentosProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReceitasPage');
   }
 
   ionViewDidEnter() {
-    this.isModal = this.navParams.get('isModal');
-    this.filter = this.navParams.get('filter');
-    this.receitas = this.receitasProvider.retrieveAll();
+    this.mIsModal = this.mNavParams.get('IS_MODAL');
+    this.mFilter = this.mNavParams.get('FILTER');
+    this.mReceitas = this.mReceitasProvider.retrieveAll();
   }
 
-  getQuantidadesOfReceita(key: Key<ReceitaModel>) : QuantidadeModel<AlimentoModel>[] {
-    return this.receitasProvider.retrieve(key).quantidades;
+  getQuantidadesOfReceita(id: number) : QuantidadeModel<AlimentoModel>[] {
+    return this.mReceitasProvider.retrieve(id).mQuantidades;
   }
 
-  getAlimentosTextOfReceita(key: Key<ReceitaModel>) : string {
-    let alimentos: string[] = this.getQuantidadesOfReceita(key).map(
+  getAlimentosTextOfReceita(id: number) : string {
+    let alimentos: string[] = this.getQuantidadesOfReceita(id).map(
       (quantidade: QuantidadeModel<AlimentoModel>) => {
-        return this.alimentosProvider.retrieve(quantidade.key).nome;
+        return this.mAlimentosProvider.retrieve(quantidade.mId).mNome;
       }
     )
     if (alimentos.length > 0) 
@@ -56,14 +56,14 @@ export class ReceitasPage {
   }
 
   newReceita() {
-    this.navCtrl.push(ReceitaPage);
+    this.mNavCtrl.push(ReceitaPage, { ID: IndexedModel.INVALID_ID });
   }
 
-  selectReceita(key: Key<ReceitaModel>) {
-    if (this.isModal) {
-      this.viewCtrl.dismiss(key);
+  selectReceita(id: number) {
+    if (this.mIsModal) {
+      this.mViewCtrl.dismiss(id);
     } else {
-      this.navCtrl.push(ReceitaPage, { key: key });
+      this.mNavCtrl.push(ReceitaPage, { ID: id });
     }
   }
 }
