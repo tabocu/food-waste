@@ -1,24 +1,49 @@
 import { Injectable } from '@angular/core';
 
 import { AlimentoModel } from '../../models/alimento/alimento'
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AlimentosProvider {
 
-  private mAlimentos: AlimentoModel[] = [];
-  private mCounter: number = 0;
+  private static sUrl: string = 'http://127.0.0.1:3000/data/alimento';
+  private static sHeaders: HttpHeaders = AlimentosProvider.initHeader();
 
-  constructor() {}
+  private static initHeader(): HttpHeaders {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
+    return headers;
+  }
+
+  private mAlimentos: AlimentoModel[] = [];
+ 
+  constructor(public mHttp: HttpClient) {
+    this.loadAlimentos();
+  }
 
   private getIndex(id: number) : number {
     return this.mAlimentos.findIndex((alimento) => { return alimento.getId() == id; });
   }
 
-  create(alimento: AlimentoModel) : number {
-    alimento.setId(this.mCounter);
-    this.mAlimentos.push(alimento);
-    ++this.mCounter;
-    return alimento.getId();
+  loadAlimentos() {
+    this.mHttp.get(
+      AlimentosProvider.sUrl,
+      { headers: AlimentosProvider.sHeaders }
+    ).subscribe(data => {
+        this.mAlimentos = AlimentoModel.fromJSONList(data);
+    })
+  }
+
+  create(alimento: AlimentoModel) {
+    this.mHttp.put(
+      AlimentosProvider.sUrl,
+      alimento.toJSON(),
+      { headers: AlimentosProvider.sHeaders }
+    ).subscribe(() => {
+      this.loadAlimentos();
+    })
   }
 
   retrieve(id: number) : AlimentoModel {
@@ -30,10 +55,12 @@ export class AlimentosProvider {
   }
 
   update(alimento: AlimentoModel) {
-    this.mAlimentos[this.getIndex(alimento.getId())] = alimento;
-  }
-
-  delete(id: number) {
-    delete this.mAlimentos[this.getIndex(id)];
+    this.mHttp.put(
+      AlimentosProvider.sUrl,
+      alimento.toJSON(),
+      { headers: AlimentosProvider.sHeaders }
+    ).subscribe(() => {
+      this.loadAlimentos();
+    })
   }
 }
